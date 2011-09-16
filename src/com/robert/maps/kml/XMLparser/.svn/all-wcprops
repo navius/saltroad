@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/351/trunk/RMaps2/src/com/robert/maps/kml/XMLparser
+END
+GpxTrackParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/351/trunk/RMaps2/src/com/robert/maps/kml/XMLparser/GpxTrackParser.java
+END
+GpxPoiParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/225/trunk/RMaps2/src/com/robert/maps/kml/XMLparser/GpxPoiParser.java
+END
+PredefMapsParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/322/trunk/RMaps2/src/com/robert/maps/kml/XMLparser/PredefMapsParser.java
+END
+KmlTrackParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/234/trunk/RMaps2/src/com/robert/maps/kml/XMLparser/KmlTrackParser.java
+END
+KmlPoiParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/225/trunk/RMaps2/src/com/robert/maps/kml/XMLparser/KmlPoiParser.java
+END
+SimpleXML.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/268/trunk/RMaps2/src/com/robert/maps/kml/XMLparser/SimpleXML.java
+END

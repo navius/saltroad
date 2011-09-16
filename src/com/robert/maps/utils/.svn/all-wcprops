@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/351/trunk/RMaps2/src/com/robert/maps/utils
+END
+InternalCachePreference.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/323/trunk/RMaps2/src/com/robert/maps/utils/InternalCachePreference.java
+END
+CompassView.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/317/trunk/RMaps2/src/com/robert/maps/utils/CompassView.java
+END
+OSGB36.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/69/trunk/RMaps2/src/com/robert/maps/utils/OSGB36.java
+END
+SQLiteMapDatabase.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/342/trunk/RMaps2/src/com/robert/maps/utils/SQLiteMapDatabase.java
+END
+RSQLiteOpenHelper.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/120/trunk/RMaps2/src/com/robert/maps/utils/RSQLiteOpenHelper.java
+END
+IndexPreference.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/324/trunk/RMaps2/src/com/robert/maps/utils/IndexPreference.java
+END
+Ut.java
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/351/trunk/RMaps2/src/com/robert/maps/utils/Ut.java
+END
+CrashReportHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/307/trunk/RMaps2/src/com/robert/maps/utils/CrashReportHandler.java
+END
+SearchSuggestionsProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/26/trunk/RMaps2/src/com/robert/maps/utils/SearchSuggestionsProvider.java
+END
+ScaleBarDrawable.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/331/trunk/RMaps2/src/com/robert/maps/utils/ScaleBarDrawable.java
+END

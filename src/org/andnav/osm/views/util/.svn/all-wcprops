@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/342/trunk/RMaps2/src/org/andnav/osm/views/util
+END
+MyMath.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/9/trunk/RMaps2/src/org/andnav/osm/views/util/MyMath.java
+END
+OpenStreetMapTileProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/322/trunk/RMaps2/src/org/andnav/osm/views/util/OpenStreetMapTileProvider.java
+END
+LRUMapTileCache.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/318/trunk/RMaps2/src/org/andnav/osm/views/util/LRUMapTileCache.java
+END
+OpenStreetMapTileDownloader.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/324/trunk/RMaps2/src/org/andnav/osm/views/util/OpenStreetMapTileDownloader.java
+END
+OpenStreetMapTileFilesystemProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/324/trunk/RMaps2/src/org/andnav/osm/views/util/OpenStreetMapTileFilesystemProvider.java
+END
+VersionedGestureDetector.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/339/trunk/RMaps2/src/org/andnav/osm/views/util/VersionedGestureDetector.java
+END
+OpenStreetMapTileCache.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/327/trunk/RMaps2/src/org/andnav/osm/views/util/OpenStreetMapTileCache.java
+END
+OpenStreetMapTileNameFormatter.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/149/trunk/RMaps2/src/org/andnav/osm/views/util/OpenStreetMapTileNameFormatter.java
+END
+OpenStreetMapRendererInfo.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/333/trunk/RMaps2/src/org/andnav/osm/views/util/OpenStreetMapRendererInfo.java
+END
+StreamUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/9/trunk/RMaps2/src/org/andnav/osm/views/util/StreamUtils.java
+END
+Mercator.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/9/trunk/RMaps2/src/org/andnav/osm/views/util/Mercator.java
+END
+Util.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/149/trunk/RMaps2/src/org/andnav/osm/views/util/Util.java
+END

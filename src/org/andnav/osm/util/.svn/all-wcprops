@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/311/trunk/RMaps2/src/org/andnav/osm/util
+END
+MyMath.java
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/9/trunk/RMaps2/src/org/andnav/osm/util/MyMath.java
+END
+GeoPoint.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/311/trunk/RMaps2/src/org/andnav/osm/util/GeoPoint.java
+END
+BoundingBoxE6.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/9/trunk/RMaps2/src/org/andnav/osm/util/BoundingBoxE6.java
+END
+TypeConverter.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/9/trunk/RMaps2/src/org/andnav/osm/util/TypeConverter.java
+END
