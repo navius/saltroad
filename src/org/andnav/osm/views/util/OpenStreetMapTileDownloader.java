@@ -15,8 +15,8 @@ import java.util.concurrent.Executors;
 import org.andnav.osm.util.constants.OpenStreetMapConstants;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
-import com.robert.maps.utils.SQLiteMapDatabase;
-import com.robert.maps.utils.Ut;
+import biz.navius.saltroad.utils.SQLiteMapDatabase;
+import biz.navius.saltroad.utils.Ut;
 
 import android.content.Context;
 import android.os.Handler;

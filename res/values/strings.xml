@@ -19,7 +19,7 @@
     <string name="pref_zoommaxlevel_summary">Set this zoom level at long press on plus button</string>
     <string name="pref_zoommaxlevel">Favourite max zoom</string>
     <string name="app_user_id"/>
-    <string name="app_user_label">Robert.Developer</string>
+    <string name="app_user_label">NAVIUS Corp.</string>
     <string name="prefcat_main_misc">Misc</string>
     <string name="pref_accuracy_summary">Show blue disk indicator like Google Map</string>
     <string name="pref_accuracy">Accuracy indicator</string>
@@ -47,7 +47,7 @@
     <string name="pref_main_maps">Predefined Maps</string>
     <string name="pref_main_maps_summary">Internet connection is required</string>
     <string name="pref_main_usermaps">User defined maps</string>
-    <string name="pref_main_usermaps_summary">Maps from /sdcard/rmaps/maps</string>
+    <string name="pref_main_usermaps_summary">Maps from /sdcard/saltroad/maps</string>
     <string name="prefcat_main_predefinedmaps"/>
     <string name="btn_clear_cache_title">Clear cache</string>
     <string name="pref_internalcache_title">Internal cache</string>
@@ -59,7 +59,7 @@
     <string name="pref_units_summary">Distance, speed units</string>
     <string name="pref_units">Units</string>
     <string name="hello">Hello World, OpenStreetMapViewer</string>
-    <string name="app_name">RMaps</string>
+    <string name="app_name">Salt Road</string>
     <string name="app_name_itemizedoverlay">OSMViewer ItemizedOverlay</string>
     <string name="unknown">Unknown</string>
     <string name="menu_settings">Settings</string>
@@ -86,18 +86,12 @@
     <string name="no_inet_conn">No internet connection...</string>
     <string name="no_items">Your search did not match any items</string>
     <string name="about_dialog_text">
-©2009 Robert.Developer\n
-  Osmdroid by Nicolas Gramlich\n
-  App icon by Everaldo Coelho\n
-With the assistance of\n
-  Dmytro Sandu\n
-  Snake Joe\n
-  Christoffer Blindheim\n
+©2011 NAVIUS Corp.\n
 All rights reserved\n
 \n
-Questions, sentences mail to robertk506@gmail.com\n
+Questions, sentences mail to cmroid@navius.biz\n
 \n
-How to and FAQ you can find on http://robertdeveloper.blogspot.com/\n
+How to and FAQ you can find on http://us.navius.biz/products/smph_apl2_us.html/\n
 	</string>
     <string name="whats_new_dialog_text">
 The source site of VFR, IFR High, IFR Low charts is unavailable now. Read here about it. http://blog.runwayfinder.com/\n
@@ -115,7 +109,7 @@ v.0.8.7.3\n
 \n
 v.0.8.7\n
 + New preference Directory\n
-+ Now RMaps stores tiles of online maps on sdcard in sqlite format\n
++ Now Salt Road stores tiles of online maps on sdcard in sqlite format\n
 \n
 v.0.8.6.1\n
 - Bug fix\n
@@ -232,7 +226,7 @@ v.0.7.0\n
     <string name="warning_delete_all_poi">Are you sure you want to delete all poi?</string>
     <string name="menu_tracks">Tracks</string>
 
-    <string name="remote_service_started">RMaps track writer</string>
+    <string name="remote_service_started">Salt Road track writer</string>
     <string name="menu_goto_track">Go to Track</string>
 
     <string name="btn_start">Start track record</string>
@@ -253,17 +247,17 @@ v.0.7.0\n
 	<string name="message_cantstarttrackwriter">Can\'t start TrackWriter because can\'t write track to </string>
 	<string name="message_error">Error: </string>
 	<string name="error_title">Error report</string>
-	<string name="error_text">After the last start the software problem has forced RMaps to be closed unexpectedly. Please, send the error report to the author of the program. Click Generate report, you can read the message before it is sent.</string>
+	<string name="error_text">After the last start the software problem has forced Salt Road to be closed unexpectedly. Please, send the error report to the author of the program. Click Generate report, you can read the message before it is sent.</string>
 	<string name="error_send">Generate report</string>
 	<string name="pref_onlinecache">Online maps cache</string>
 	<string name="pref_onlinecache_summary">Store online maps tiles to sdcard</string>
 	<string name="message_wait">Wait a moment, please...</string>
 	<string name="pref_dir">Directories</string>
-	<string name="pref_dir_main">Main RMaps directory</string>
+	<string name="pref_dir_main">Main Salt Road directory</string>
 	<string name="pref_dir_maps">User maps directory</string>
 	<string name="pref_dir_import">Import files directory</string>
 	<string name="pref_dir_export">Export files directory</string>
-	<string name="pref_dir_summary">Where RMaps stores your files</string>
+	<string name="pref_dir_summary">Where Salt Road stores your files</string>
 	<string name="pref_crosshair">Crosshair on centre</string>
 	<string name="pref_crosshair_summary">Show litle crosshair on centre of the map</string>
 

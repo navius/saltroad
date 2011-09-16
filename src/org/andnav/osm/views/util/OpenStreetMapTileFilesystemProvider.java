@@ -40,10 +40,10 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.robert.maps.R;
-import com.robert.maps.utils.RSQLiteOpenHelper;
-import com.robert.maps.utils.SQLiteMapDatabase;
-import com.robert.maps.utils.Ut;
+import biz.navius.saltroad.R;
+import biz.navius.saltroad.utils.RSQLiteOpenHelper;
+import biz.navius.saltroad.utils.SQLiteMapDatabase;
+import biz.navius.saltroad.utils.Ut;
 
 /**
  *
@@ -474,7 +474,7 @@ public class OpenStreetMapTileFilesystemProvider implements OpenStreetMapConstan
 							OpenStreetMapTileFilesystemProvider.this.mCache.putTile(aTileURLString, bmp);
 						} catch (OutOfMemoryError e) {
 							Ut.w("OutOfMemoryError");
-							// TODO Попытка отловить OutOfMemory
+							// TODO пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ OutOfMemory
 							e.printStackTrace();
 						}
 
@@ -1103,7 +1103,7 @@ public class OpenStreetMapTileFilesystemProvider implements OpenStreetMapConstan
 
 	public SQLiteDatabase getIndexDatabase() {
 		File folder = Ut.getRMapsMainDir(mCtx, "data");
-		if(!folder.exists()) // no sdcard // TODO Проверить как это работает без карты? если вытащить карту во время работы программы?
+		if(!folder.exists()) // no sdcard // TODO пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ? пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ?
 			return null;
 
 		Ut.dd("OpenStreetMapTileFilesystemProvider: Open INDEX database");

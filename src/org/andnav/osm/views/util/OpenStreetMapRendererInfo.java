@@ -17,8 +17,8 @@ import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 
-import com.robert.maps.R;
-import com.robert.maps.kml.XMLparser.PredefMapsParser;
+import biz.navius.saltroad.R;
+import biz.navius.saltroad.kml.XMLparser.PredefMapsParser;
 
 /**
  *
@@ -40,7 +40,7 @@ public class OpenStreetMapRendererInfo {
 	URL_BUILDER_TYPE, // 0 - OSM, 1 - Google, 2 - Yandex, 3 - Yandex.Traffic, 4 - Google.Sattelite, 5 - openspace, 6 - microsoft, 8 - VFR Chart
 	TILE_SOURCE_TYPE, // 0 - internet, 3 - MapNav file, 4 - TAR, 5 - sqlitedb
 	YANDEX_TRAFFIC_ON,
-	PROJECTION; // 1-меркатор на сфероид, 2- на эллипсоид, 3- OSGB 36 British national grid reference system
+	PROJECTION; // 1-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, 2- пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, 3- OSGB 36 British national grid reference system
 	public boolean LAYER;
 	private boolean mOnlineMapCacheEnabled;
 

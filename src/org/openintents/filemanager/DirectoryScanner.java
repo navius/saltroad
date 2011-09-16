@@ -12,7 +12,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
-import com.robert.maps.utils.Ut;
+import biz.navius.saltroad.utils.Ut;
 
 public class DirectoryScanner extends Thread {
 

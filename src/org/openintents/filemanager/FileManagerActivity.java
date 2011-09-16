@@ -42,7 +42,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.robert.maps.R;
+import biz.navius.saltroad.R;
 
 public class FileManagerActivity extends ListActivity {
 	private int mState;

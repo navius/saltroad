@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
-import com.robert.maps.utils.Ut;
+import biz.navius.saltroad.utils.Ut;
 
 import android.graphics.Bitmap;
 

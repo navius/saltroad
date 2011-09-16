@@ -35,8 +35,8 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.robert.maps.R;
-import com.robert.maps.kml.Track.TrackPoint;
+import biz.navius.saltroad.R;
+import biz.navius.saltroad.kml.Track.TrackPoint;
 
 public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		OpenStreetMapViewConstants {
@@ -465,7 +465,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 
 		public void onMove(MotionEvent event, int count, float x1, float y1, float x2, float y2) {
 			if (Math.max(Math.abs(mTouchDownX - event.getX()), Math.abs(mTouchDownY - event.getY())) > 6 && !mStopMoveDetecting) {
-				mActionMoveDetected = true; // компенсируем дрожание рук
+				mActionMoveDetected = true; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
 				final float aRotateToAngle = 360 - mBearing;
 				OpenStreetMapView.this.mTouchMapOffsetX = (int) (Math.sin(Math.toRadians(aRotateToAngle)) * (event.getY() - OpenStreetMapView.this.mTouchDownY))
 						+ (int) (Math.cos(Math.toRadians(aRotateToAngle)) * (event.getX() - OpenStreetMapView.this.mTouchDownX));
@@ -572,7 +572,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		 * Calculate the amount of tiles needed for each side around the center
 		 * one.
 		 */
-		// TODO Нужен адекватный алгоритм для отбора необходимых тайлов, попадающих в экран при повороте карты
+		// TODO пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 		final int iDelta = mBearing > 0 && mRendererInfo.YANDEX_TRAFFIC_ON == 0 ? 1 : 0;
 		final int additionalTilesNeededToLeftOfCenter = iDelta + (int) Math
 				.ceil((float) centerMapTileScreenLeftNotScale / tileSizePxNotScale); // i.e.

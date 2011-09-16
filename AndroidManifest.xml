@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest android:sharedUserId="@string/app_user_id"
     android:sharedUserLabel="@string/app_user_label"
-    package="com.robert.maps" xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto"
-    android:versionName="0.8.9" android:versionCode="100">
+    xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto"
+    android:versionName="0.8.9" android:versionCode="100" package="biz.navius.saltroad">
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="com.robert.maps.action.SHOW_POINTS"/>
+                <action android:name="biz.navius.saltroad.action.SHOW_POINTS"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
             <meta-data android:name="android.app.searchable" android:resource="@xml/searchable"/>
@@ -40,7 +40,7 @@
             <meta-data android:name="android.app.searchable" android:resource="@xml/searchable"/>
         </activity>
         <provider
-            android:authorities="com.robert.maps.SuggestionProvider" android:name=".utils.SearchSuggestionsProvider"/>
+            android:authorities="biz.navius.saltroad.SuggestionProvider" android:name=".utils.SearchSuggestionsProvider"/>
         <activity android:name=".kml.PoiActivity"/>
         <activity android:name=".kml.PoiListActivity"/>
         <activity android:name=".kml.TrackListActivity"/>
@@ -49,8 +49,8 @@
 <activity android:name=".kml.PoiIconSetActivity"></activity>
         <activity android:name=".kml.ImportPoiActivity"/>
         <activity android:name="org.openintents.filemanager.FileManagerActivity"/>
-<service android:name=".trackwriter.TrackWriterService" android:icon="@drawable/track_writer_service" android:process=":trackwriter"><intent-filter><action android:name="com.robert.maps.trackwriter"></action>
-<action android:name="com.robert.maps.trackwriter.IRemoteService"></action>
+<service android:name=".trackwriter.TrackWriterService" android:icon="@drawable/track_writer_service" android:process=":trackwriter"><intent-filter><action android:name="biz.navius.saltroad.trackwriter"></action>
+<action android:name="biz.navius.saltroad.trackwriter.IRemoteService"></action>
 </intent-filter>
 </service>
 <activity android:name=".kml.ImportTrackActivity"></activity>

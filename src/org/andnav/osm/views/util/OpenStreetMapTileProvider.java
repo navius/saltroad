@@ -11,8 +11,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.robert.maps.R;
-import com.robert.maps.utils.Ut;
+import biz.navius.saltroad.R;
+import biz.navius.saltroad.utils.Ut;
 
 /**
  *
