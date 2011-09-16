@@ -20,7 +20,7 @@
 	<item
 		android:id="@+id/mapselector"
 		android:title="@string/menu_mapselector"
-		android:icon="@android:drawable/ic_menu_mapmode">
+		android:icon="@android:drawable/ic_menu_mapmode" android:visible="false">
 		<menu>
 			<group
 				android:menuCategory="container"
@@ -32,10 +32,10 @@
 
 	<item
 		android:id="@+id/tracks"
-		android:title="@string/menu_tracks"></item>
+		android:title="@string/menu_tracks" android:visible="false"></item>
 	<item
 		android:id="@+id/gpsstatus"
-		android:title="@string/menu_gpsstatus"></item>
+		android:title="@string/menu_gpsstatus" android:icon="@drawable/gps_status"></item>
 	<item
 		android:id="@+id/settings"
 		android:icon="@android:drawable/ic_menu_preferences"

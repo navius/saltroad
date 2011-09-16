@@ -520,10 +520,10 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 			final GeoPoint point = mOsmv.getMapCenter();
 			startActivityForResult((new Intent(this, PoiListActivity.class)).putExtra("lat", point.getLatitude()).putExtra("lon", point.getLongitude()).putExtra("title", "POI"), R.id.poilist);
 			return true;
-		case (R.id.tracks):
+/*		case (R.id.tracks):
 			startActivityForResult(new Intent(this, TrackListActivity.class), R.id.tracks);
 			return true;
-		case (R.id.search):
+*/		case (R.id.search):
 			onSearchRequested();
 			return true;
 		case (R.id.settings):
@@ -532,9 +532,9 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		case (R.id.about):
 			showDialog(R.id.about);
 			return true;
-		case (R.id.mapselector):
+/*		case (R.id.mapselector):
 			return true;
-		case (R.id.compass):
+*/		case (R.id.compass):
 			mCompassEnabled = !mCompassEnabled;
 			mCompassView.setVisibility(mCompassEnabled ? View.VISIBLE : View.INVISIBLE);
 			if(mCompassEnabled)
@@ -755,7 +755,7 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		mStatusListener = provider+ " " + status + " " + (cnt >= 0 ? cnt : 0);
 		setTitle();
 	}
-
+/*
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		Menu submenu = menu.findItem(R.id.mapselector).getSubMenu();
@@ -796,7 +796,7 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 
 		return super.onPrepareOptionsMenu(menu);
 	}
-
+*/
 	@Override
 	protected void onPause() {
 		SharedPreferences uiState = getPreferences(0);
@@ -940,7 +940,7 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 				mOsmv.invalidate();
 			}
 			break;
-		case R.id.tracks:
+/*		case R.id.tracks:
 			if(resultCode == RESULT_OK){
 				Track track = mPoiManager.getTrack(data.getIntExtra("trackid", PoiPoint.EMPTY_ID()));
 				if(track != null){
@@ -949,7 +949,7 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 				}
 			}
 			break;
-		case R.id.settings_activity_closed:
+*/		case R.id.settings_activity_closed:
 			finish();
 			startActivity(new Intent(this, this.getClass()));
 			break;

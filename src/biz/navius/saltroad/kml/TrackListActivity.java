@@ -60,7 +60,7 @@ public class TrackListActivity extends ListActivity {
 			case R.id.about:
 				FillData();
 				break;
-			case R.id.tracks:
+/*			case R.id.tracks:
 				if(msg.arg1 == 0)
 					Toast.makeText(TrackListActivity.this, R.string.trackwriter_nothing, Toast.LENGTH_LONG).show();
 				else
@@ -68,7 +68,7 @@ public class TrackListActivity extends ListActivity {
 
 				FillData();
 				break;
-			case R.id.menu_exporttogpxpoi:
+*/			case R.id.menu_exporttogpxpoi:
 				if (msg.arg1 == 0)
 					Toast
 							.makeText(TrackListActivity.this,
@@ -154,8 +154,8 @@ public class TrackListActivity extends ListActivity {
 				};
 
 				dlgWait.dismiss();
-				Message.obtain(mHandler, R.id.tracks, res, 0).sendToTarget();
-			}
+/*				Message.obtain(mHandler, R.id.tracks, res, 0).sendToTarget();
+*/			}
 		});
 	}
 

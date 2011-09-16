@@ -8,7 +8,7 @@
 		<EditTextPreference android:title="@string/pref_dir_export" android:key="pref_dir_export" android:dialogTitle="@string/pref_dir_export" android:defaultValue="/sdcard/saltroad/export"></EditTextPreference>
 	</PreferenceScreen>
 	<PreferenceCategory
-		android:title="@string/prefcat_main_maps">
+		android:title="@string/prefcat_main_maps" android:key="prefcat_main_maps">
 		<PreferenceScreen
 			android:title="@string/pref_main_maps"
 			android:summary="@string/pref_main_maps_summary">
@@ -111,17 +111,17 @@
 			android:summary="@string/pref_hidepoi_summary"
 			android:defaultValue="false"></CheckBoxPreference>
 	</PreferenceCategory>
-	<PreferenceCategory android:title="@string/prefcat_main_trackwriter"><ListPreference android:title="@string/pref_trackwriter_mintime" android:entries="@array/mintime_pref_title" android:entryValues="@array/mintime_pref_values" android:key="pref_trackwriter_mintime" android:summary="@string/pref_trackwriter_mintime_summary" android:defaultValue="2000"></ListPreference>
+	<PreferenceCategory android:title="@string/prefcat_main_trackwriter" android:key="prefcat_main_trackwriter"><ListPreference android:title="@string/pref_trackwriter_mintime" android:entries="@array/mintime_pref_title" android:entryValues="@array/mintime_pref_values" android:key="pref_trackwriter_mintime" android:summary="@string/pref_trackwriter_mintime_summary" android:defaultValue="2000"></ListPreference>
 <ListPreference android:entries="@array/mindistance_pref_title" android:entryValues="@array/mindistance_pref_values" android:title="@string/pref_trackwriter_mindistance" android:key="pref_trackwriter_mindistance" android:summary="@string/pref_trackwriter_mindistance_summary" android:defaultValue="10"></ListPreference>
 </PreferenceCategory><PreferenceCategory
-		android:title="@string/prefcat_main_indexing">
+		android:title="@string/prefcat_main_indexing" android:key="prefcat_main_indexing">
 		<CheckBoxPreference
 			android:key="pref_turnoffautoreindex"
 			android:title="@string/pref_turnoffautoreindex"
 			android:summary="@string/pref_turnoffautoreindex_summary"
 			android:defaultValue="false"></CheckBoxPreference>
 		<biz.navius.saltroad.utils.InternalCachePreference
-			android:summary="@string/pref_internalcache_summary" android:title="@string/pref_internalcache_title" android:key="pref_internalcache"/>
+			android:summary="@string/pref_internalcache_summary" android:key="pref_internalcache" android:title="@string/pref_internalcache_title"/>
 		<biz.navius.saltroad.utils.IndexPreference
 			android:summary="@string/pref_index_summary" android:key="pref_index" android:title="@string/pref_index_title"/>
 		<CheckBoxPreference android:key="pref_onlinecache" android:title="@string/pref_onlinecache" android:defaultValue="true" android:summary="@string/pref_onlinecache_summary"></CheckBoxPreference>
