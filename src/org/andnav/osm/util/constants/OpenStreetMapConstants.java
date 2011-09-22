@@ -11,7 +11,7 @@ public interface OpenStreetMapConstants {
 	// Final Fields
 	// ===========================================================
 	
-	public static final String DEBUGTAG = "RMAPS";
+	public static final String DEBUGTAG = "SALTROAD";
 
 	public static final int NOT_SET = Integer.MIN_VALUE;
 	public static final String GPS = "gps";

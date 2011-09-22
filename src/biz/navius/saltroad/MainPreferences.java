@@ -37,12 +37,14 @@ public class MainPreferences extends PreferenceActivity implements OnSharedPrefe
 		final PreferenceGroup prefcatMainTrackwriter = (PreferenceGroup) findPreference("prefcat_main_trackwriter");
 		final PreferenceGroup prefcatMainIndexing = (PreferenceGroup) findPreference("prefcat_main_indexing");
 
-		getPreferenceScreen().removePreference(prefDirgroup);
-		getPreferenceScreen().removePreference(prefcatMainMaps);
-		getPreferenceScreen().removePreference(prefcatMainTrackwriter);
-		getPreferenceScreen().removePreference(prefcatMainIndexing);
+		//getPreferenceScreen().removePreference(prefDirgroup);
+		//getPreferenceScreen().removePreference(prefcatMainMaps);
+		//getPreferenceScreen().removePreference(prefcatMainTrackwriter);
+		//getPreferenceScreen().removePreference(prefcatMainIndexing);
 
-/*		final SAXParserFactory fac = SAXParserFactory.newInstance();
+		final PreferenceGroup prefMapsgroup = (PreferenceGroup) findPreference("pref_predefmaps_mapsgroup");
+
+		final SAXParserFactory fac = SAXParserFactory.newInstance();
 		SAXParser parser = null;
 		try {
 			parser = fac.newSAXParser();
@@ -56,7 +58,7 @@ public class MainPreferences extends PreferenceActivity implements OnSharedPrefe
 
 		final File folder = Ut.getRMapsMapsDir(this);
 		LoadUserMaps(folder);
-*/	}
+	}
 
 	private void LoadUserMaps(final File folder) {
 		// Cash file preferences

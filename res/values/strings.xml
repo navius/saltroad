@@ -190,4 +190,9 @@ v.0.8.9\n
 	<string name="m">m</string>
 	<string name="ml">ml</string>
 	<string name="activity">Activity</string>
+
+	<string name="downloading_map_file">Downloading map file..</string>
+	<string name="failed_to_download_map">Failed to Download Map File</string>
+	<string name="problem_downloading">Problem downloading map file. Please try later.</string>
+
 </resources>

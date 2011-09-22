@@ -10,6 +10,9 @@
 
 <item android:id="@+id/dialog_wait"></item>
 
+<item android:id="@+id/map_download"></item>
+<item android:id="@+id/map_download_error"></item>
+
 <item android:id="@+id/menu_addpoi"></item>
 <item android:id="@+id/menu_editpoi"></item>
 <item android:id="@+id/menu_deletepoi"></item>

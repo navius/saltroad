@@ -20,7 +20,7 @@
 	<item
 		android:id="@+id/mapselector"
 		android:title="@string/menu_mapselector"
-		android:icon="@android:drawable/ic_menu_mapmode" android:visible="false">
+		android:icon="@android:drawable/ic_menu_mapmode" android:visible="true">
 		<menu>
 			<group
 				android:menuCategory="container"
