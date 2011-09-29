@@ -104,7 +104,7 @@
 </PreferenceCategory>
 
 	<PreferenceCategory
-		android:title="@string/prefcat_main_poi">
+		android:title="@string/prefcat_main_poi" android:key="prefcat_main_poi">
 		<CheckBoxPreference
 			android:title="@string/pref_hidepoi"
 			android:key="pref_hidepoi"

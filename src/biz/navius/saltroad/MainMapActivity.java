@@ -11,8 +11,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -31,11 +31,6 @@ import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapTileFilesystemProvider;
 import org.andnav.osm.views.util.StreamUtils;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -66,7 +61,6 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.Browser;
 import android.provider.SearchRecentSuggestions;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -103,6 +97,10 @@ import biz.navius.saltroad.utils.SearchSuggestionsProvider;
 import biz.navius.saltroad.utils.Ut;
 
 import biz.navius.saltroad.constants.MapConstants;
+import biz.navius.saltroad.copysdcard.CopyMapFileToSDCardHandler;
+import biz.navius.saltroad.copysdcard.CopyMapFileToSDCardThreadRunnable;
+import biz.navius.saltroad.copysdcard.CopyTrackFileToSDCardHandler;
+import biz.navius.saltroad.copysdcard.CopyTrackFileToSDCardThreadRunnable;
 
 public class MainMapActivity extends OpenStreetMapActivity implements OpenStreetMapConstants {
 	// ===========================================================
@@ -139,6 +137,13 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 	private int mMarkerIndex;
 
     private ProgressDialog mMapFileDownloadProgressDialog;
+	private ProgressDialog mMapDlgWait;
+	private ProgressDialog mTrackDlgWait;
+   Handler mCopyMapFileToSDCardHandler = null;
+    Thread mCopyMapFileToSDCardThreadRunnable = null;
+    Handler mCopyTrackFileToSDCardHandler = null;
+    Thread mCopyTrackFileToSDCardThreadRunnable = null;
+
 
     private final SensorEventListener mListener = new SensorEventListener() {
 		private int iOrientation = -1;
@@ -198,17 +203,6 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	
-    	String mapName = Ut.FileName2ID(MapConstants.MAP_FILE_NAME);
-		SharedPreferences settings = getPreferences(MODE_PRIVATE);
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putString("MapName", "usermap_" + mapName);
-		editor.commit();
-		
-       	SharedPreferences defaultSettings = PreferenceManager.getDefaultSharedPreferences(this);
-		SharedPreferences.Editor defaultEditor = defaultSettings.edit();
-		defaultEditor.putBoolean("pref_usermaps_" + mapName + "_enabled", true);
-		defaultEditor.commit();
     	
     	if(OpenStreetMapViewConstants.DEBUGMODE)
     		android.os.Debug.startMethodTracing("lsd");
@@ -392,7 +386,7 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
         if(mShowTitle)
 	        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.main_title);
 
-		//restoreUIState();
+		restoreUIState();
 
         final Intent queryIntent = getIntent();
         final String queryAction = queryIntent.getAction();
@@ -506,7 +500,8 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 				menu.add(0, R.id.menu_deletepoi, 0, getText(R.string.menu_delete));
 				menu.add(0, R.id.menu_toradar, 0, getText(R.string.menu_toradar));
 			} else {
-				menu.add(0, R.id.menu_addpoi, 0, getText(R.string.menu_addpoi));
+				// Comment out by D.Adachi
+				//menu.add(0, R.id.menu_addpoi, 0, getText(R.string.menu_addpoi));
 			}
 		}
 
@@ -522,7 +517,7 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 
 		return true;
 	}
-
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		super.onOptionsItemSelected(item);
@@ -576,7 +571,7 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 			return true;
 		default:
  			OpenStreetMapRendererInfo RendererInfo = getRendererInfo(getResources(), getPreferences(Activity.MODE_PRIVATE), (String)item.getTitleCondensed());
- 			Log.d("Test", (String)item.getTitleCondensed());
+ 			Ut.dd((String)item.getTitleCondensed());
 			mOsmv.setRenderer(RendererInfo);
 
 			this.mOsmv.getOverlays().clear();
@@ -686,13 +681,13 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 					editor.commit();
 				}
 			}).create();
-		case R.id.map_download:
+		case R.id.map_download: {
 			mMapFileDownloadProgressDialog = new ProgressDialog(this);
 			mMapFileDownloadProgressDialog.setMessage(getString(R.string.downloading_map_file));
 			mMapFileDownloadProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			mMapFileDownloadProgressDialog.setCancelable(false);
-			mMapFileDownloadProgressDialog.show();
             return mMapFileDownloadProgressDialog;
+		}
 		case R.id.map_download_error:
 			return new AlertDialog.Builder(this)
 	          .setIcon(0)
@@ -700,7 +695,20 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 	          .setPositiveButton(android.R.string.ok, null)
 	          .setMessage(R.string.problem_downloading)
 	          .create();
-
+		case R.id.map_dialog_wait: {
+			mMapDlgWait = new ProgressDialog(this);
+			mMapDlgWait.setMessage("Please wait while map loading...");
+			mMapDlgWait.setIndeterminate(true);
+			mMapDlgWait.setCancelable(false);
+			return mMapDlgWait;
+		}
+		case R.id.track_dialog_wait: {
+			mTrackDlgWait = new ProgressDialog(this);
+			mTrackDlgWait.setMessage("Please wait while track loading...");
+			mTrackDlgWait.setIndeterminate(true);
+			mTrackDlgWait.setCancelable(false);
+			return mTrackDlgWait;
+		}
 		}
 
 		return null;
@@ -868,15 +876,9 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		
     	SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        
-    	//if (!pref.getBoolean("map_download_success", false)) {
-    	//	startMapDownload();
-    	//}
-    	
-		restoreUIState();
-    	
+
     	if (pref.getBoolean("pref_keepscreenon", true)) {
 			myWakeLock = ((PowerManager) getSystemService(POWER_SERVICE)).newWakeLock(
 					PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "SaltRoad");
@@ -889,8 +891,9 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 			mOrientationSensorManager.registerListener(mListener, mOrientationSensorManager
 				.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_UI);
 
-		if(mTrackOverlay != null)
+		if(mTrackOverlay != null) {
 			mTrackOverlay.setStopDraw(false);
+		}
 	}
 
 	@Override
@@ -913,18 +916,21 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 
 	private void restoreUIState() {
 		SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
-
-		OpenStreetMapRendererInfo RendererInfo = getRendererInfo(getResources(), settings, settings.getString("MapName", "mapnik"));
-		Log.d("MapName", settings.getString("MapName", "mapnik"));
-		if(!mOsmv.setRenderer(RendererInfo))
-			mOsmv.setRenderer(getRendererInfo(getResources(), settings, "mapnik"));
+		
+		OpenStreetMapRendererInfo RendererInfo = getRendererInfo(getResources(), settings, settings.getString("MapName", "googleland"));
+		Ut.dd(settings.getString("MapName", "googleland"));
+		if(!mOsmv.setRenderer(RendererInfo)) {
+			mOsmv.setRenderer(getRendererInfo(getResources(), settings, "googleland"));
+		}
 
 		this.mOsmv.getOverlays().clear();
 		if(RendererInfo.YANDEX_TRAFFIC_ON == 1){
        		this.mOsmv.getOverlays().add(new YandexTrafficOverlay(this, this.mOsmv));
 		}
-        if(mTrackOverlay != null)
+        if(mTrackOverlay != null) {
         	this.mOsmv.getOverlays().add(mTrackOverlay);
+        }
+        
         if(mCurrentTrackOverlay != null)
         	this.mOsmv.getOverlays().add(mCurrentTrackOverlay);
         if(mPoiOverlay != null)
@@ -932,8 +938,8 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
         this.mOsmv.getOverlays().add(mMyLocationOverlay);
         this.mOsmv.getOverlays().add(mSearchResultOverlay);
 
-		mOsmv.setZoomLevel(settings.getInt("ZoomLevel", 0));
-		mOsmv.setMapCenter(settings.getInt("Latitude", 0), settings.getInt("Longitude", 0));
+		mOsmv.setZoomLevel(settings.getInt("ZoomLevel", MapConstants.DEFAULT_ZOOMLEVEL - 1));
+		mOsmv.setMapCenter(settings.getInt("Latitude", MapConstants.DEFAULT_LATITUDE), settings.getInt("Longitude", MapConstants.DEFAULT_LONGITUDE));
 
 		mCompassEnabled = settings.getBoolean("CompassEnabled", false);
 		mCompassView.setVisibility(mCompassEnabled ? View.VISIBLE : View.INVISIBLE);
@@ -969,12 +975,46 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 			}
 	}
 	
-	private void startMapDownload() {
-        String url = MapConstants.MAP_URL;
-        File folder = Ut.getRMapsMapsDir(this);
-        String filename = MapConstants.MAP_FILE_NAME;
-		String filePath = folder.getAbsolutePath() + File.separator + filename;
-        new DownloadFileAsync().execute(url, filePath);
+	private void copyMapFileToSDCard() {
+    	if (mCopyMapFileToSDCardHandler == null)
+    	{
+    		mCopyMapFileToSDCardHandler = new CopyMapFileToSDCardHandler(this);
+    		mCopyMapFileToSDCardThreadRunnable = new Thread(new CopyMapFileToSDCardThreadRunnable(mCopyMapFileToSDCardHandler, this));
+    		mCopyMapFileToSDCardThreadRunnable.start();
+    	}
+    	if (mCopyMapFileToSDCardThreadRunnable.getState() != Thread.State.TERMINATED)
+    	{
+    		Ut.dd("thread is new or alive, but not terminated");
+    	}
+    	else
+    	{
+    		Ut.dd("thread is likely dead. starting now");
+    		//you have to create a new thread.
+    		//no way to resurrect a dead thread.
+    		mCopyMapFileToSDCardThreadRunnable = new Thread(new CopyMapFileToSDCardThreadRunnable(mCopyMapFileToSDCardHandler, this));
+    		mCopyMapFileToSDCardThreadRunnable.start();
+    	}
+	}
+
+	private void copyTrackFileToSDCard() {
+    	if (mCopyTrackFileToSDCardHandler == null)
+    	{
+    		mCopyTrackFileToSDCardHandler = new CopyTrackFileToSDCardHandler(this);
+    		mCopyTrackFileToSDCardThreadRunnable = new Thread(new CopyTrackFileToSDCardThreadRunnable(mCopyTrackFileToSDCardHandler, this, mPoiManager));
+    		mCopyTrackFileToSDCardThreadRunnable.start();
+    	}
+    	if (mCopyTrackFileToSDCardThreadRunnable.getState() != Thread.State.TERMINATED)
+    	{
+    		Ut.dd("thread is new or alive, but not terminated");
+    	}
+    	else
+    	{
+    		Ut.dd("thread is likely dead. starting now");
+    		//you have to create a new thread.
+    		//no way to resurrect a dead thread.
+    		mCopyTrackFileToSDCardThreadRunnable = new Thread(new CopyTrackFileToSDCardThreadRunnable(mCopyTrackFileToSDCardHandler, this, mPoiManager));
+    		mCopyTrackFileToSDCardThreadRunnable.start();
+    	}
 	}
 
 	@Override
@@ -1030,6 +1070,17 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 	private class MainActivityCallbackHandler extends Handler{
 		@Override
 		public void handleMessage(final Message msg) {
+			SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
+			
+			if (!settings.getBoolean("copy_map_to_sdcard_success", false)) {
+				showDialog(R.id.map_dialog_wait);
+				MainMapActivity.this.copyMapFileToSDCard();
+			}
+			if (!settings.getBoolean("copy_track_to_sdcard_success", false)) {
+				showDialog(R.id.track_dialog_wait);
+				MainMapActivity.this.copyTrackFileToSDCard();
+			}
+			
 			final int what = msg.what;
 			switch(what){
 				case R.id.user_moved_map:
@@ -1135,40 +1186,56 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
         @Override
         protected String doInBackground(String... urls) {
             int count;
+            final int SIZE = 1024*1024;
 
             try {
-                //URL url = new URL(urls[0]);
-                //URLConnection conexion = url.openConnection();
-                //conexion.connect();
+                URL url = new URL(urls[0]);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setDoOutput(true);
+                urlConnection.connect();
 
-                //int lenghtOfFile = conexion.getContentLength();
-                //Log.d("ANDRO_ASYNC", "Lenght of file: " + lenghtOfFile);
+                int lenghtOfFile = urlConnection.getContentLength();
+                Ut.dd("Lenght of file: " + lenghtOfFile);
 
-                //InputStream input = new BufferedInputStream(url.openStream());
-                //OutputStream output = new FileOutputStream(urls[1]);
-                
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet(urls[0]);
-                HttpResponse response = httpclient.execute(httpget);
-                HttpEntity entity = response.getEntity();
-                long lenghtOfFile = entity.getContentLength();
- 
-                InputStream input = entity.getContent();
+                InputStream input = new BufferedInputStream(url.openStream());
                 OutputStream output = new FileOutputStream(urls[1]);
                 
-                byte data[] = new byte[1024*1024];
+                //HttpClient httpclient = new DefaultHttpClient();
+                //HttpGet httpget = new HttpGet(urls[0]);
+                //HttpResponse response = httpclient.execute(httpget);
+                //HttpEntity entity = response.getEntity();
+                //long lenghtOfFile = entity.getContentLength();
+ 
+                //InputStream input = entity.getContent();
+                //OutputStream output = new FileOutputStream(urls[1]);
+                
+                //BufferedInputStream bis = new BufferedInputStream(input, SIZE);
+                //BufferedOutputStream bos = new BufferedOutputStream(output, SIZE);
+                
+                byte data[] = new byte[SIZE];
 
                 long total = 0;
 
                 while ((count = input.read(data)) != -1) {
                     total += count;
-                    publishProgress((int)((total*100)/lenghtOfFile));
                     output.write(data, 0, count);
+                    publishProgress((int)((total*100)/lenghtOfFile));
                 }
+
+                //while ((count = bis.read(data)) != -1) {
+                //    total += count;
+                //    publishProgress((int)((total*100)/lenghtOfFile));
+                //    bos.write(data, 0, count);
+                //}
 
                 output.flush();
                 output.close();
                 input.close();
+                urlConnection.disconnect();
+                //bos.close();
+                //bis.close();
+                return Integer.toString((int)total);
 	      	} catch (IOException e) {
       		// covers:
               //      ClientProtocolException
@@ -1199,6 +1266,49 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
         
     }
     
+
+    public void copyMapToSDCardSuccessPreference(Boolean success) {
+		SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
+       	SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainMapActivity.this);
+		SharedPreferences.Editor editor1 = settings.edit();
+		SharedPreferences.Editor editor2 = pref.edit();
+		String name = Ut.FileName2ID(MapConstants.MAP_FILE_NAME);
+
+    	if (success) {
+    		editor1.putBoolean("copy_map_to_sdcard_success", true);
+    		editor1.commit();
+           	editor2.putBoolean("pref_usermaps_" + name + "_enabled", true);
+    		editor2.commit();
+    	} else {
+    		editor1.putBoolean("copy_map_to_sdcard_success", false);
+    		editor1.commit();
+           	editor2.putBoolean("pref_usermaps_" + name + "_enabled", false);
+    		editor2.commit();
+    	}
+		dismissDialog(R.id.map_dialog_wait);
+   }
+
+    public void copyTrackToSDCardSuccessPreference(Boolean success) {
+		SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
+		SharedPreferences.Editor editor1 = settings.edit();
+
+    	if (success) {
+    		editor1.putBoolean("copy_track_to_sdcard_success", true);
+    		editor1.putInt("Latitude", MapConstants.DEFAULT_LATITUDE);
+    		editor1.putInt("Longitude", MapConstants.DEFAULT_LONGITUDE);
+    		editor1.putInt("ZoomLevel", MapConstants.DEFAULT_ZOOMLEVEL - 1);
+    		editor1.commit();
+    		mPoiManager.setTrackChecked(1);
+    		mTrackOverlay.setStopDraw(false);
+    		mOsmv.setZoomLevel(MapConstants.DEFAULT_ZOOMLEVEL - 1);
+    		mOsmv.setMapCenter(MapConstants.DEFAULT_LATITUDE, MapConstants.DEFAULT_LONGITUDE);
+    	} else {
+    		editor1.putBoolean("copy_track_to_sdcard_success", false);
+    		editor1.commit();
+    	}
+		dismissDialog(R.id.track_dialog_wait);
+    }
+
     private void saveMapDownloadPreference(boolean success) {
 		SharedPreferences pref = getPreferences(MODE_PRIVATE);
 		SharedPreferences.Editor editor = pref.edit();

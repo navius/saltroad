@@ -1,8 +1,11 @@
 package biz.navius.saltroad.utils;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,6 +23,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -264,6 +268,62 @@ public class Ut implements OpenStreetMapConstants, OpenStreetMapViewConstants {
 		sendIntent.putExtra(Intent.EXTRA_EMAIL, email);
 		sendIntent.setType("message/rfc822");
 		return Intent.createChooser(sendIntent, "Error report to the author");
+	}
+
+	public static boolean cpSDCard(Context ctx, int fromRs, String toSDCardPath) {  
+        int count;
+        final int SIZE = 1024*1024;
+        try {
+      		 InputStream fIn = ctx.getResources().openRawResource(fromRs);  
+    		 File theFile = new File(toSDCardPath);
+    		 String path = theFile.getParent();  
+
+    		 boolean exists = (new File(path)).exists();  
+    		 if (!exists){new File(path).mkdirs();}  
+           	
+             InputStream input = new BufferedInputStream(fIn);
+             OutputStream output = new FileOutputStream(toSDCardPath);
+            
+             byte data[] = new byte[SIZE];
+
+             while ((count = input.read(data)) != -1) {
+                 output.write(data, 0, count);
+             }
+             output.flush();
+             output.close();
+             input.close();
+      	} catch (IOException e) {
+      		// covers:
+            //      ClientProtocolException
+            //      ConnectTimeoutException
+            //      ConnectionPoolTimeoutException
+            //      SocketTimeoutException
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+	}
+	
+	public static Bundle getStringAsABundle(String message)
+	{
+		Bundle b = new Bundle();
+		b.putString("message", message);
+		return b;
+	}
+	public static String getStringFromABundle(Bundle b)
+	{
+		return b.getString("message");
+	}
+
+	public static Bundle getBooleanAsABundle(Boolean message)
+	{
+		Bundle b = new Bundle();
+		b.putBoolean("message", message);
+		return b;
+	}
+	public static Boolean getBooleanFromABundle(Bundle b)
+	{
+		return b.getBoolean("message");
 	}
 
 }
