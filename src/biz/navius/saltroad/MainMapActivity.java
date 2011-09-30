@@ -7,11 +7,8 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -52,7 +49,6 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -136,10 +132,9 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 	private String ACTION_SHOW_POINTS = "biz.navius.saltroad.action.SHOW_POINTS";
 	private int mMarkerIndex;
 
-    private ProgressDialog mMapFileDownloadProgressDialog;
 	private ProgressDialog mMapDlgWait;
 	private ProgressDialog mTrackDlgWait;
-   Handler mCopyMapFileToSDCardHandler = null;
+    Handler mCopyMapFileToSDCardHandler = null;
     Thread mCopyMapFileToSDCardThreadRunnable = null;
     Handler mCopyTrackFileToSDCardHandler = null;
     Thread mCopyTrackFileToSDCardThreadRunnable = null;
@@ -681,20 +676,6 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 					editor.commit();
 				}
 			}).create();
-		case R.id.map_download: {
-			mMapFileDownloadProgressDialog = new ProgressDialog(this);
-			mMapFileDownloadProgressDialog.setMessage(getString(R.string.downloading_map_file));
-			mMapFileDownloadProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			mMapFileDownloadProgressDialog.setCancelable(false);
-            return mMapFileDownloadProgressDialog;
-		}
-		case R.id.map_download_error:
-			return new AlertDialog.Builder(this)
-	          .setIcon(0)
-	          .setTitle(R.string.failed_to_download_map)
-	          .setPositiveButton(android.R.string.ok, null)
-	          .setMessage(R.string.problem_downloading)
-	          .create();
 		case R.id.map_dialog_wait: {
 			mMapDlgWait = new ProgressDialog(this);
 			mMapDlgWait.setMessage("Please wait while map loading...");
@@ -1175,97 +1156,6 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		}
 	}
 
-    class DownloadFileAsync extends AsyncTask<String, Integer, String> {
-        
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showDialog(R.id.map_download);
-        }
-
-        @Override
-        protected String doInBackground(String... urls) {
-            int count;
-            final int SIZE = 1024*1024;
-
-            try {
-                URL url = new URL(urls[0]);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.setDoOutput(true);
-                urlConnection.connect();
-
-                int lenghtOfFile = urlConnection.getContentLength();
-                Ut.dd("Lenght of file: " + lenghtOfFile);
-
-                InputStream input = new BufferedInputStream(url.openStream());
-                OutputStream output = new FileOutputStream(urls[1]);
-                
-                //HttpClient httpclient = new DefaultHttpClient();
-                //HttpGet httpget = new HttpGet(urls[0]);
-                //HttpResponse response = httpclient.execute(httpget);
-                //HttpEntity entity = response.getEntity();
-                //long lenghtOfFile = entity.getContentLength();
- 
-                //InputStream input = entity.getContent();
-                //OutputStream output = new FileOutputStream(urls[1]);
-                
-                //BufferedInputStream bis = new BufferedInputStream(input, SIZE);
-                //BufferedOutputStream bos = new BufferedOutputStream(output, SIZE);
-                
-                byte data[] = new byte[SIZE];
-
-                long total = 0;
-
-                while ((count = input.read(data)) != -1) {
-                    total += count;
-                    output.write(data, 0, count);
-                    publishProgress((int)((total*100)/lenghtOfFile));
-                }
-
-                //while ((count = bis.read(data)) != -1) {
-                //    total += count;
-                //    publishProgress((int)((total*100)/lenghtOfFile));
-                //    bos.write(data, 0, count);
-                //}
-
-                output.flush();
-                output.close();
-                input.close();
-                urlConnection.disconnect();
-                //bos.close();
-                //bis.close();
-                return Integer.toString((int)total);
-	      	} catch (IOException e) {
-      		// covers:
-              //      ClientProtocolException
-              //      ConnectTimeoutException
-              //      ConnectionPoolTimeoutException
-              //      SocketTimeoutException
-              e.printStackTrace();
-            }
-            return null;
-
-        }
-        protected void onProgressUpdate(Integer... progress) {
-             mMapFileDownloadProgressDialog.setProgress(progress[0]);
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-    		dismissDialog(R.id.map_download);
-        	if (result != null) {
-        		saveMapDownloadPreference(true);
-        	} else {
-        		saveMapDownloadPreference(false);
-                showDialog(R.id.map_download_error);
-        	}
-        }
-
-        
-    }
-    
 
     public void copyMapToSDCardSuccessPreference(Boolean success) {
 		SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
@@ -1278,6 +1168,7 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
     		editor1.putBoolean("copy_map_to_sdcard_success", true);
     		editor1.commit();
            	editor2.putBoolean("pref_usermaps_" + name + "_enabled", true);
+           	editor2.putString("pref_usermaps_" + name + "_name", MapConstants.MAP_NAME);
     		editor2.commit();
     	} else {
     		editor1.putBoolean("copy_map_to_sdcard_success", false);
@@ -1308,13 +1199,4 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
     	}
 		dismissDialog(R.id.track_dialog_wait);
     }
-
-    private void saveMapDownloadPreference(boolean success) {
-		SharedPreferences pref = getPreferences(MODE_PRIVATE);
-		SharedPreferences.Editor editor = pref.edit();
-		editor.putBoolean("map_download_success", success);
-		editor.commit();
-    }
-
-
 }

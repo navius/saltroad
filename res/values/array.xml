@@ -190,6 +190,11 @@
 		<item>CHINESE (SIMPLIFIED)</item>
 		<item>CHINESE (TRADITIONAL)</item>
 	</string-array>
+	<string-array name="download_maps_names">
+		<item>OFFLINE MAP MIN 11-14</item>
+		<item>OFFLINE MAP MEDIUM 11-15</item>
+		<item>OFFLINE MAP MAX 9-16</item>
+	</string-array>
 	<string-array name="screen_orientation_pref_title">
 		<item>Default</item>
 		<item>Force Landscape</item>

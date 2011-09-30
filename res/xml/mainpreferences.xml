@@ -22,7 +22,14 @@
 			android:entryValues="@array/languages_codes"
 			android:key="pref_googlelanguagecode"
 			android:title="@string/pref_googlelanguagecode"
-			android:summary="@string/pref_googlelanguagecode_summary"></ListPreference>
+			android:summary="@string/pref_googlelanguagecode_summary">
+		</ListPreference>
+		<PreferenceScreen android:title="@string/pref_main_usermaps_download" android:key="pref_main_usermaps_download" android:summary="@string/pref_main_usermaps_download_summary">
+			<biz.navius.saltroad.utils.DownloadMapPreference
+				android:title="@string/pref_download_medium_map_title" android:key="pref_download_medium_map" android:summary="@string/pref_download_medium_map_summary"/>
+			<biz.navius.saltroad.utils.DownloadMapPreference
+				android:title="@string/pref_download_max_map_title"  android:key="pref_download_max_map" android:summary="@string/pref_download_max_map_summary"/>
+		</PreferenceScreen>
 		<PreferenceScreen
 			android:title="@string/pref_main_usermaps"
 			android:summary="@string/pref_main_usermaps_summary" android:key="pref_main_usermaps">
