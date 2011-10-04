@@ -53,9 +53,9 @@
     <string name="pref_main_usermaps_download_summary">Download maps to /sdcard/saltroad/maps</string>
     <string name="btn_download_title">Download</string>
     <string name="pref_download_medium_map_title">Medium map</string>
-    <string name="pref_download_medium_map_summary">Size: 70MB. Download time: about 10 minute</string>
+    <string name="pref_download_medium_map_summary">Size: 70MB. Download time: about 5 minute</string>
     <string name="pref_download_max_map_title">Maximum map</string>
-    <string name="pref_download_max_map_summary">Size: 200MB. Download time: about 30 minute</string>
+    <string name="pref_download_max_map_summary">Size: 200MB. Download time: about 14 minute</string>
     <string name="btn_clear_cache_title">Clear cache</string>
     <string name="pref_internalcache_title">Internal cache</string>
     <string name="pref_internalcache_summary">Used for temp storage map tiles. Size: %dKB/4MB</string>
