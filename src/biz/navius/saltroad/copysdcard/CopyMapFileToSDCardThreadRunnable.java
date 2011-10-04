@@ -33,7 +33,7 @@ public class CopyMapFileToSDCardThreadRunnable implements Runnable
 	    String basename = MapConstants.MAP_FILE_NAME;
 		String filePath = folder.getAbsolutePath() + File.separator + basename;
 		
-		if (!Ut.cpSDCard(parentActivity, R.raw.offline_map_min_11_14, filePath)) {
+		if (!Ut.cpSDCard(parentActivity, R.raw.offline_map_min_9_14, filePath)) {
 			m.setData(Ut.getBooleanAsABundle(false));
 			this.mainThreadHandler.sendMessage(m);
 			return;

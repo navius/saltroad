@@ -42,7 +42,7 @@ public class CopyTrackFileToSDCardThreadRunnable implements Runnable
 	    File folder = Ut.getRMapsImportDir(parentActivity);
 
 		for(Integer i = 0 ; i < MapConstants.TRACK_FILE_NUM ; i++) {
-	        String basename = String.format("salt_road_track%02d", i + 1);
+	        String basename = String.format("%s%02d", MapConstants.DEFAULT_TRACK_FILE_BASE_NAME, i + 1);
 	        String filename = basename + ".kml";
 			String filePath = folder.getAbsolutePath() + File.separator + filename;
 			int trackKMLID = parentActivity.getResources().getIdentifier(basename, "raw", parentActivity.getPackageName());
@@ -55,7 +55,7 @@ public class CopyTrackFileToSDCardThreadRunnable implements Runnable
 	    }
 
 	    for(Integer i = 0 ; i < MapConstants.TRACK_FILE_NUM ; i++) {
-	        String basename = String.format("salt_road_track%02d", i + 1);
+	        String basename = String.format("%s%02d", MapConstants.DEFAULT_TRACK_FILE_BASE_NAME, i + 1);
 	        String filename = basename + ".kml";
 			String filePath = folder.getAbsolutePath() + File.separator + filename;
 			if (!importTrack(filePath)) {

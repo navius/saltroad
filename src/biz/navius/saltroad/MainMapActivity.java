@@ -393,8 +393,9 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 
         if(OpenStreetMapViewConstants.DEBUGMODE)
         	android.os.Debug.stopMethodTracing();
-    }
 
+    }
+    
 	@Override
 	protected void onDestroy() {
 		try {
@@ -563,6 +564,10 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		case (R.id.mylocation):
 			setAutoFollow(true);
 			setLastKnownLocation();
+			return true;
+		case (R.id.default_location):
+			setAutoFollow(false);
+			setDefaultLocation();
 			return true;
 		default:
  			OpenStreetMapRendererInfo RendererInfo = getRendererInfo(getResources(), getPreferences(Activity.MODE_PRIVATE), (String)item.getTitleCondensed());
@@ -735,6 +740,19 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 							OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT);
 	}
 
+	private void setDefaultLocation() {
+		SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
+		SharedPreferences.Editor editor1 = settings.edit();
+		editor1.putInt("Latitude", MapConstants.DEFAULT_LATITUDE);
+		editor1.putInt("Longitude", MapConstants.DEFAULT_LONGITUDE);
+		editor1.putInt("ZoomLevel", MapConstants.DEFAULT_ZOOMLEVEL - 1);
+		editor1.commit();
+
+		mOsmv.setZoomLevel(MapConstants.DEFAULT_ZOOMLEVEL - 1);
+		mOsmv.setMapCenter(MapConstants.DEFAULT_LATITUDE, MapConstants.DEFAULT_LONGITUDE);
+		setTitle();
+	}
+	
 	private void setAutoFollow(boolean autoFollow) {
 		setAutoFollow(autoFollow, false);
 	}
@@ -857,6 +875,8 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 	@Override
 	protected void onResume() {
 		super.onResume();
+		
+		setDefaultMapTrack();
 		
     	SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -1051,16 +1071,6 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 	private class MainActivityCallbackHandler extends Handler{
 		@Override
 		public void handleMessage(final Message msg) {
-			SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
-			
-			if (!settings.getBoolean("copy_map_to_sdcard_success", false)) {
-				showDialog(R.id.map_dialog_wait);
-				MainMapActivity.this.copyMapFileToSDCard();
-			}
-			if (!settings.getBoolean("copy_track_to_sdcard_success", false)) {
-				showDialog(R.id.track_dialog_wait);
-				MainMapActivity.this.copyTrackFileToSDCard();
-			}
 			
 			final int what = msg.what;
 			switch(what){
@@ -1184,19 +1194,45 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		SharedPreferences.Editor editor1 = settings.edit();
 
     	if (success) {
-    		editor1.putBoolean("copy_track_to_sdcard_success", true);
-    		editor1.putInt("Latitude", MapConstants.DEFAULT_LATITUDE);
-    		editor1.putInt("Longitude", MapConstants.DEFAULT_LONGITUDE);
-    		editor1.putInt("ZoomLevel", MapConstants.DEFAULT_ZOOMLEVEL - 1);
-    		editor1.commit();
     		mPoiManager.setTrackChecked(1);
     		mTrackOverlay.setStopDraw(false);
-    		mOsmv.setZoomLevel(MapConstants.DEFAULT_ZOOMLEVEL - 1);
-    		mOsmv.setMapCenter(MapConstants.DEFAULT_LATITUDE, MapConstants.DEFAULT_LONGITUDE);
+    		editor1.putBoolean("copy_track_to_sdcard_success", true);
+    		editor1.commit();
+    		setDefaultLocation();
     	} else {
     		editor1.putBoolean("copy_track_to_sdcard_success", false);
     		editor1.commit();
     	}
 		dismissDialog(R.id.track_dialog_wait);
+    }
+
+    private void setDefaultMapTrack() {
+		SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
+		
+		File mapFolder = Ut.getRMapsMapsDir(this);
+		String mapFilePath = mapFolder.getAbsolutePath() + File.separator + MapConstants.MAP_FILE_NAME;
+		File mapFile = new File(mapFilePath);
+
+		File trackFolder = Ut.getRMapsImportDir(this);
+		
+		boolean isExistTrackFile = true;
+		for(Integer i = 0 ; i < MapConstants.TRACK_FILE_NUM ; i++) {
+	        String trackFileBasename = String.format("%s%02d", MapConstants.DEFAULT_TRACK_FILE_BASE_NAME, i + 1);
+	        String trackFilename = trackFileBasename + ".kml";
+			String trackFilePath = trackFolder.getAbsolutePath() + File.separator + trackFilename;
+			File trackFile = new File(trackFilePath);
+			
+			if (!trackFile.exists())
+				isExistTrackFile = false;
+		}
+		
+		if (!settings.getBoolean("copy_map_to_sdcard_success", false) || !mapFile.exists()) {
+			showDialog(R.id.map_dialog_wait);
+			MainMapActivity.this.copyMapFileToSDCard();
+		}
+		if (!settings.getBoolean("copy_track_to_sdcard_success", false) || !isExistTrackFile) {
+			showDialog(R.id.track_dialog_wait);
+			MainMapActivity.this.copyTrackFileToSDCard();
+		}
     }
 }
