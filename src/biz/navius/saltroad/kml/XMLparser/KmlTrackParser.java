@@ -14,6 +14,7 @@ public class KmlTrackParser extends DefaultHandler {
 	private String [] mStrArray;
 	private String [] mStrArray2;
 	private boolean mItIsTrack;
+	private boolean mIsDefaultTracks;
 
 	private static final String Placemark = "Placemark";
 	private static final String LineString = "LineString";
@@ -21,14 +22,13 @@ public class KmlTrackParser extends DefaultHandler {
 	private static final String coordinates = "coordinates";
 	private static final String description = "description";
 
-
-
-	public KmlTrackParser(PoiManager poiManager) {
+	public KmlTrackParser(PoiManager poiManager, boolean isDefaultTracks) {
 		super();
 		builder = new StringBuilder();
 		mPoiManager = poiManager;
 		mTrack = new Track();
 		mItIsTrack = false;
+		mIsDefaultTracks = isDefaultTracks;
 	}
 
 	@Override
@@ -53,7 +53,11 @@ public class KmlTrackParser extends DefaultHandler {
 		if(localName.equalsIgnoreCase(Placemark)){
 			if(mItIsTrack){
 				if(mTrack.Name.equalsIgnoreCase("")) mTrack.Name = "Track";
-				mPoiManager.updateTrack(mTrack);
+				if(mIsDefaultTracks) {
+					mPoiManager.updateDefaultTrack(mTrack);
+				} else {
+					mPoiManager.updateTrack(mTrack);
+				}
 			}
 		}
 		else if(localName.equalsIgnoreCase(NAME))

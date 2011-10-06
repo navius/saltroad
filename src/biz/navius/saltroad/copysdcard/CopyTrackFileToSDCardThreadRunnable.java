@@ -39,7 +39,7 @@ public class CopyTrackFileToSDCardThreadRunnable implements Runnable
 	
 	private void copyTrackFileToSDCard() {
 		Message m = this.mainThreadHandler.obtainMessage();
-	    File folder = Ut.getRMapsImportDir(parentActivity);
+	    File folder = Ut.getRMapsDefaultImportDir(parentActivity);
 
 		for(Integer i = 0 ; i < MapConstants.TRACK_FILE_NUM ; i++) {
 	        String basename = String.format("%s%02d", MapConstants.DEFAULT_TRACK_FILE_BASE_NAME, i + 1);
@@ -53,6 +53,8 @@ public class CopyTrackFileToSDCardThreadRunnable implements Runnable
 				return;
 			}
 	    }
+		
+		mPoiManager.deleteAllDefaultTrack();
 
 	    for(Integer i = 0 ; i < MapConstants.TRACK_FILE_NUM ; i++) {
 	        String basename = String.format("%s%02d", MapConstants.DEFAULT_TRACK_FILE_BASE_NAME, i + 1);
@@ -96,7 +98,7 @@ public class CopyTrackFileToSDCardThreadRunnable implements Runnable
 			Ut.dd("Start parsing file " + file.getName());
 			try {
 				if(FileUtils.getExtension(file.getName()).equalsIgnoreCase(".kml"))
-					parser.parse(file, new KmlTrackParser(mPoiManager));
+					parser.parse(file, new KmlTrackParser(mPoiManager, true));
 				else if(FileUtils.getExtension(file.getName()).equalsIgnoreCase(".gpx"))
 					parser.parse(file, new GpxTrackParser(mPoiManager));
 

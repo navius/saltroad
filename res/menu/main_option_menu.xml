@@ -36,7 +36,7 @@
 
 	<item
 		android:id="@+id/tracks"
-		android:title="@string/menu_tracks" android:visible="false"></item>
+		android:title="@string/menu_tracks" android:visible="true"></item>
 	<item
 		android:id="@+id/gpsstatus"
 		android:title="@string/menu_gpsstatus" android:icon="@drawable/gps_status"></item>

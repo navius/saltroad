@@ -130,6 +130,19 @@ public class Ut implements OpenStreetMapConstants, OpenStreetMapViewConstants {
 		return dir;
 	}
 
+	private static File getDefaultDir(final Context mCtx, final String aDefaultDirName, final String aFolderName) {
+		final String dirName = aDefaultDirName+"/"+aFolderName+"/";
+
+		final File dir = new File(dirName.replace("//", "/").replace("//", "/"));
+		if(!dir.exists()){
+			if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)){
+				dir.mkdirs();
+			}
+		}
+
+		return dir;
+	}
+
 	public static File getRMapsMainDir(final Context mCtx, final String aFolderName) {
 		return getDir(mCtx, "pref_dir_main", "/sdcard/saltroad/", aFolderName);
 	}
@@ -142,6 +155,10 @@ public class Ut implements OpenStreetMapConstants, OpenStreetMapViewConstants {
 		return getDir(mCtx, "pref_dir_import", "/sdcard/saltroad/import/", "");
 	}
 
+	public static File getRMapsDefaultImportDir(final Context mCtx) {
+		return getDefaultDir(mCtx, "/sdcard/saltroad/defaultimport/", "");
+	}
+	
 	public static File getRMapsExportDir(final Context mCtx) {
 		return getDir(mCtx, "pref_dir_export", "/sdcard/saltroad/export/", "");
 	}

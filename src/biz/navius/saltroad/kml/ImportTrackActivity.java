@@ -145,7 +145,7 @@ public class ImportTrackActivity extends Activity {
 					Ut.dd("Start parsing file " + file.getName());
 					try {
 						if(FileUtils.getExtension(file.getName()).equalsIgnoreCase(".kml"))
-							parser.parse(file, new KmlTrackParser(mPoiManager));
+							parser.parse(file, new KmlTrackParser(mPoiManager, false));
 						else if(FileUtils.getExtension(file.getName()).equalsIgnoreCase(".gpx"))
 							parser.parse(file, new GpxTrackParser(mPoiManager));
 

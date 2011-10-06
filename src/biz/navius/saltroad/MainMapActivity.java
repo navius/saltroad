@@ -81,6 +81,7 @@ import biz.navius.saltroad.kml.Track;
 import biz.navius.saltroad.kml.TrackListActivity;
 import biz.navius.saltroad.kml.XMLparser.PredefMapsParser;
 import biz.navius.saltroad.overlays.CurrentTrackOverlay;
+import biz.navius.saltroad.overlays.DefaultTrackOverlay;
 import biz.navius.saltroad.overlays.MyLocationOverlay;
 import biz.navius.saltroad.overlays.PoiOverlay;
 import biz.navius.saltroad.overlays.SearchResultOverlay;
@@ -112,6 +113,8 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 	private PoiOverlay mPoiOverlay;
 	private CurrentTrackOverlay mCurrentTrackOverlay;
 	private TrackOverlay mTrackOverlay;
+	private DefaultTrackOverlay mDefaultTrackOverlay;
+	
 	private SearchResultOverlay mSearchResultOverlay;
 
 	private PowerManager.WakeLock myWakeLock;
@@ -235,6 +238,9 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 
         /* Itemized Overlay */
 		{
+			this.mDefaultTrackOverlay = new DefaultTrackOverlay(this, mPoiManager);
+			this.mOsmv.getOverlays().add(this.mDefaultTrackOverlay);
+
 			this.mTrackOverlay = new TrackOverlay(this, mPoiManager);
 			this.mOsmv.getOverlays().add(this.mTrackOverlay);
 
@@ -578,6 +584,8 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 			if(RendererInfo.YANDEX_TRAFFIC_ON == 1){
 	       		this.mOsmv.getOverlays().add(new YandexTrafficOverlay(this, this.mOsmv));
 			}
+	        if(mDefaultTrackOverlay != null)
+	        	this.mOsmv.getOverlays().add(mDefaultTrackOverlay);
 	        if(mTrackOverlay != null)
 	        	this.mOsmv.getOverlays().add(mTrackOverlay);
 	        if(mCurrentTrackOverlay != null)
@@ -892,6 +900,9 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 			mOrientationSensorManager.registerListener(mListener, mOrientationSensorManager
 				.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_UI);
 
+		if(mDefaultTrackOverlay != null) {
+			mDefaultTrackOverlay.setStopDraw(false);
+		}
 		if(mTrackOverlay != null) {
 			mTrackOverlay.setStopDraw(false);
 		}
@@ -899,6 +910,8 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 
 	@Override
 	protected void onRestart() {
+//		if(mDefaultTrackOverlay != null)
+//			mDefaultTrackOverlay.clearTrack();
 		if(mTrackOverlay != null)
 			mTrackOverlay.clearTrack();
 //		if(mCurrentTrackOverlay != null)
@@ -928,6 +941,9 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		if(RendererInfo.YANDEX_TRAFFIC_ON == 1){
        		this.mOsmv.getOverlays().add(new YandexTrafficOverlay(this, this.mOsmv));
 		}
+        if(mDefaultTrackOverlay != null) {
+        	this.mOsmv.getOverlays().add(mDefaultTrackOverlay);
+        }
         if(mTrackOverlay != null) {
         	this.mOsmv.getOverlays().add(mTrackOverlay);
         }
@@ -1194,11 +1210,11 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		SharedPreferences.Editor editor1 = settings.edit();
 
     	if (success) {
-    		mPoiManager.setTrackChecked(1);
-    		mTrackOverlay.setStopDraw(false);
+    		mDefaultTrackOverlay.setStopDraw(false);
     		editor1.putBoolean("copy_track_to_sdcard_success", true);
     		editor1.commit();
     		setDefaultLocation();
+			mOsmv.invalidate();
     	} else {
     		editor1.putBoolean("copy_track_to_sdcard_success", false);
     		editor1.commit();
@@ -1213,7 +1229,7 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		String mapFilePath = mapFolder.getAbsolutePath() + File.separator + MapConstants.MAP_FILE_NAME;
 		File mapFile = new File(mapFilePath);
 
-		File trackFolder = Ut.getRMapsImportDir(this);
+		File trackFolder = Ut.getRMapsDefaultImportDir(this);
 		
 		boolean isExistTrackFile = true;
 		for(Integer i = 0 ; i < MapConstants.TRACK_FILE_NUM ; i++) {

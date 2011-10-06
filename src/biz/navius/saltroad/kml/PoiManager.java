@@ -225,7 +225,68 @@ public class PoiManager implements PoiConstants {
 
 	public void deleteTrack(int id) {
 		mGeoDatabase.deleteTrack(id);
-
 	}
 
+	public void updateDefaultTrack(Track track) {
+		if(track.getId() < 0){
+			long newId = mGeoDatabase.addDefaultTrack(track.Name, track.Descr, track.Show ? ONE : ZERO, track.Cnt, track.Distance, track.Duration, track.Category, track.Activity, track.Date);
+
+			for(TrackPoint trackpoint: track.getPoints()){
+				mGeoDatabase.addDefaultTrackPoint(newId, trackpoint.lat, trackpoint.lon, trackpoint.alt, trackpoint.speed, trackpoint.date);
+			}
+		} else
+			mGeoDatabase.updateDefaultTrack(track.getId(), track.Name, track.Descr, track.Show ? ONE : ZERO, track.Cnt, track.Distance, track.Duration, track.Category, track.Activity, track.Date);
+	}
+
+	public void deleteAllDefaultTrack() {
+		mGeoDatabase.deleteAllDefaultTrack();
+	}
+
+	private List<Track> doCreateDefaultTrackListFromCursor(Cursor c){
+		final ArrayList<Track> items = new ArrayList<Track>();
+		if (c != null) {
+			if (c.moveToFirst()) {
+				do {
+					items.add(getDefaultTrack(c.getInt(3)));
+				} while (c.moveToNext());
+			}
+			c.close();
+		}
+
+		return items;
+	}
+
+	public List<Track> getDefaultTrackList(){
+		return doCreateDefaultTrackListFromCursor(mGeoDatabase.getDefaultTrackListCursor(""));
+	}
+	
+	public Track getDefaultTrack(int id){
+		Track track = null;
+		Cursor c = mGeoDatabase.getDefaultTrack(id);
+		if (c != null) {
+			if (c.moveToFirst())
+				track = new Track(id, c.getString(0), c.getString(1), c.getInt(2) == ONE ? true : false, c.getInt(3), c.getDouble(4), c.getDouble(5), c.getInt(6), c.getInt(7), new Date(c.getLong(8)*1000));
+			c.close();
+			c = null;
+
+			c = mGeoDatabase.getDefaultTrackPoints(id);
+			if (c != null) {
+				if (c.moveToFirst()) {
+					do {
+						track.AddTrackPoint();
+						track.LastTrackPoint.lat = c.getDouble(0);
+						track.LastTrackPoint.lon = c.getDouble(1);
+						track.LastTrackPoint.alt = c.getDouble(2);
+						track.LastTrackPoint.speed = c.getDouble(3);
+						track.LastTrackPoint.date.setTime(c.getLong(4) * 1000); // System.currentTimeMillis()
+					} while (c.moveToNext());
+				}
+				c.close();
+			}
+
+		}
+
+		return track;
+	}
+	
 }

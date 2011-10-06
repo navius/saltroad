@@ -9,7 +9,7 @@ public interface MapConstants {
 	public static final String MEDIUM_MAP_NAME = "Offline Map Medium 9-15";
 	public static final String MAX_MAP_NAME = "Offline Map Max 9-16";
 	// TODO D.Adachi
-	public static final Integer TRACK_FILE_NUM = 1;
+	public static final Integer TRACK_FILE_NUM = 4;
 	public static final String DEFAULT_TRACK_FILE_BASE_NAME = "default_track";
 
 	public static final Integer DEFAULT_ZOOMLEVEL = 10;

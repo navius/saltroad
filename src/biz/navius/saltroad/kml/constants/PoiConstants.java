@@ -21,6 +21,7 @@ public interface PoiConstants {
 	public static final String MINZOOM = "minzoom";
 	public static final String SHOW = "show";
 	public static final String TRACKID = "trackid";
+	public static final String DEFAULTTRACKID = "defaulttrackid";
 	public static final String SPEED = "speed";
 	public static final String DATE = "date";
 	public static final String CNT = "cnt";
@@ -36,9 +37,13 @@ public interface PoiConstants {
 	public static final String GEODATA_FILENAME = "/geodata.db";
 	public static final String TRACK = "Track";
 
+	public static final String DEFAULTTRACKS = "defaulttracks";
+	public static final String DEFAULTTRACKPOINTS = "defaulttrackpoints";
+
 	public static final String UPDATE_POINTS = "pointid = @1";
 	public static final String UPDATE_CATEGORY = "categoryid = @1";
 	public static final String UPDATE_TRACKS = "trackid = @1";
+	public static final String UPDATE_DEFAULTTRACKS = "defaulttrackid = @1";
 
 	public static final String STAT_GET_POI_LIST = "SELECT lat, lon, name, descr, pointid, pointid _id, pointid ID FROM points ORDER BY lat, lon";
 	public static final String STAT_PoiListNotHidden = "SELECT poi.lat, poi.lon, poi.name, poi.descr, poi.pointid, poi.pointid _id, poi.pointid ID, poi.categoryid, cat.iconid FROM points poi LEFT JOIN category cat ON cat.categoryid = poi.categoryid WHERE poi.hidden = 0 AND cat.hidden = 0 "
@@ -68,11 +73,29 @@ public interface PoiConstants {
 	public static final String STAT_saveTrackFromWriter = "SELECT lat, lon, alt, speed, date FROM trackpoints ORDER BY id;";
 	public static final String STAT_CLEAR_TRACKPOINTS = "DELETE FROM 'trackpoints';";
 
+	public static final String STAT_getDefaultTrackList = "SELECT defaulttracks.name, activity.name || ', ' || strftime('%%d/%%m/%%Y %%H:%%M:%%S', date, 'unixepoch', 'localtime') As title2, descr, defaulttrackid _id, cnt, TIME('2011-01-01', duration || ' seconds') as duration, round(distance/1000, 2) AS distance0, CASE WHEN show=1 THEN "
+			+ R.drawable.btn_check_buttonless_on
+			+ " ELSE "
+			+ R.drawable.btn_check_buttonless_off
+			+ " END as image, IFNULL(duration, -1) As NeedStatUpdate, '%s' as units, round(distance/1000/1.609344, 2) AS distance1 FROM defaulttracks LEFT JOIN activity ON activity.activityid = defaulttracks.activity ORDER BY defaulttrackid DESC;";
+	public static final String STAT_getDefaultTracks = "SELECT name, descr, show, defaulttrackid, cnt, distance, duration, categoryid, activity, date FROM defaulttracks";
+	public static final String STAT_getDefaultTrack = "SELECT name, descr, show, cnt, distance, duration, categoryid, activity, date FROM defaulttracks WHERE defaulttrackid = @1";
+	public static final String STAT_getDefaultTrackPoints = "SELECT lat, lon, alt, speed, date FROM defaulttrackpoints WHERE defaulttrackid = @1 ORDER BY id";
+	public static final String STAT_setDefaultTrackChecked_1 = "UPDATE defaulttracks SET show = 1 - show * 1 WHERE defaulttrackid = @1";
+	public static final String STAT_setDefaultTrackChecked_2 = "UPDATE defaulttracks SET show = 0 WHERE defaulttrackid <> @1";
+	public static final String STAT_deleteDefaultTrack_1 = "DELETE FROM defaulttrackpoints WHERE defaulttrackid = @1";
+	public static final String STAT_deleteDefaultTrack_2 = "DELETE FROM defaulttracks WHERE defaulttrackid = @1";
+	public static final String STAT_saveDefaultTrackFromWriter = "SELECT lat, lon, alt, speed, date FROM defaulttrackpoints ORDER BY id;";
+	public static final String STAT_CLEAR_DEFAULTTRACKS = "DELETE FROM 'defaulttracks';";
+	public static final String STAT_CLEAR_DEFAULTTRACKPOINTS = "DELETE FROM 'defaulttrackpoints';";
+
 	public static final String SQL_CREATE_points = "CREATE TABLE 'points' (pointid INTEGER NOT NULL PRIMARY KEY UNIQUE,name VARCHAR,descr VARCHAR,lat FLOAT DEFAULT '0',lon FLOAT DEFAULT '0',alt FLOAT DEFAULT '0',hidden INTEGER DEFAULT '0',categoryid INTEGER,pointsourceid INTEGER,iconid INTEGER DEFAULT NULL);";
 	public static final String SQL_CREATE_category = "CREATE TABLE 'category' (categoryid INTEGER NOT NULL PRIMARY KEY UNIQUE, name VARCHAR, hidden INTEGER DEFAULT '0', iconid INTEGER DEFAULT NULL, minzoom INTEGER DEFAULT '14');";
 	public static final String SQL_CREATE_pointsource = "CREATE TABLE IF NOT EXISTS 'pointsource' (pointsourceid INTEGER NOT NULL PRIMARY KEY UNIQUE, name VARCHAR);";
 	public static final String SQL_CREATE_tracks = "CREATE TABLE IF NOT EXISTS 'tracks' (trackid INTEGER NOT NULL PRIMARY KEY UNIQUE, name VARCHAR, descr VARCHAR, date DATETIME, show INTEGER, cnt INTEGER, duration INTEGER, distance INTEGER, categoryid INTEGER, activity INTEGER);";
 	public static final String SQL_CREATE_trackpoints = "CREATE TABLE IF NOT EXISTS 'trackpoints' (trackid INTEGER NOT NULL, id INTEGER NOT NULL PRIMARY KEY UNIQUE, lat FLOAT, lon FLOAT, alt FLOAT, speed FLOAT, date DATETIME);";
+	public static final String SQL_CREATE_defaulttracks = "CREATE TABLE IF NOT EXISTS 'defaulttracks' (defaulttrackid INTEGER NOT NULL PRIMARY KEY UNIQUE, name VARCHAR, descr VARCHAR, date DATETIME, show INTEGER, cnt INTEGER, duration INTEGER, distance INTEGER, categoryid INTEGER, activity INTEGER);";
+	public static final String SQL_CREATE_defaulttrackpoints = "CREATE TABLE IF NOT EXISTS 'defaulttrackpoints' (defaulttrackid INTEGER NOT NULL, id INTEGER NOT NULL PRIMARY KEY UNIQUE, lat FLOAT, lon FLOAT, alt FLOAT, speed FLOAT, date DATETIME);";
 	public static final String SQL_CREATE_activity = "CREATE TABLE 'activity' (activityid INTEGER NOT NULL PRIMARY KEY UNIQUE, name VARCHAR);";
 	public static final String SQL_CREATE_drop_activity = "DROP TABLE IF EXISTS 'activity';";
 	public static final String SQL_CREATE_insert_activity = "INSERT INTO 'activity' (activityid, name) VALUES (%d, '%s');";

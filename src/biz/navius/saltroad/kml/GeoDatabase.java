@@ -186,6 +186,8 @@ public class GeoDatabase implements PoiConstants{
 			db.execSQL(PoiConstants.SQL_ADD_category);
 			db.execSQL(PoiConstants.SQL_CREATE_tracks);
 			db.execSQL(PoiConstants.SQL_CREATE_trackpoints);
+			db.execSQL(PoiConstants.SQL_CREATE_defaulttracks);
+			db.execSQL(PoiConstants.SQL_CREATE_defaulttrackpoints);
 			LoadActivityListFromResource(db);
 		}
 
@@ -400,6 +402,121 @@ public class GeoDatabase implements PoiConstants{
 			mDatabase.execSQL(STAT_deleteTrack_1, args);
 			mDatabase.execSQL(STAT_deleteTrack_2, args);
 			commitTransaction();
+		}
+	}
+
+	public Cursor getDefaultTrackListCursor(final String units) {
+		if (isDatabaseReady()) {
+			return mDatabase.rawQuery(String.format(STAT_getDefaultTrackList, units), null);
+		}
+
+		return null;
+	}
+
+	public long addDefaultTrack(final String name, final String descr, final int show, final int cnt, final double distance,
+			final double duration, final int category, final int activity, final Date date) {
+		long newId = -1;
+
+		if (isDatabaseReady()) {
+			final ContentValues cv = new ContentValues();
+			cv.put(NAME, name);
+			cv.put(DESCR, descr);
+			cv.put(SHOW, show);
+			cv.put(CNT, cnt);
+			cv.put(DISTANCE, distance);
+			cv.put(DURATION, duration);
+			cv.put(CATEGORYID, category);
+			cv.put(ACTIVITY, activity);
+			cv.put(DATE, date.getTime()/1000);
+			newId = this.mDatabase.insert(DEFAULTTRACKS, null, cv);
+		}
+
+		return newId;
+	}
+
+	public void updateDefaultTrack(final int id, final String name, final String descr, final int show, final int cnt, final double distance, final double duration, final int category, final int activity, final Date date) {
+		if (isDatabaseReady()) {
+			final ContentValues cv = new ContentValues();
+			cv.put(NAME, name);
+			cv.put(DESCR, descr);
+			cv.put(SHOW, show);
+			cv.put(CNT, cnt);
+			cv.put(DISTANCE, distance);
+			cv.put(DURATION, duration);
+			cv.put(CATEGORYID, category);
+			cv.put(ACTIVITY, activity);
+			cv.put(DATE, date.getTime()/1000);
+			final String[] args = {Integer.toString(id)};
+			this.mDatabase.update(DEFAULTTRACKS, cv, UPDATE_DEFAULTTRACKS, args);
+		}
+	}
+
+	public void addDefaultTrackPoint(final long trackid, final double lat,
+			final double lon, final double alt, final double speed,
+			final Date date) {
+		if (isDatabaseReady()) {
+			final ContentValues cv = new ContentValues();
+			cv.put(DEFAULTTRACKID, trackid);
+			cv.put(LAT, lat);
+			cv.put(LON, lon);
+			cv.put(ALT, alt);
+			cv.put(SPEED, speed);
+			cv.put(DATE, date.getTime()/1000);
+			this.mDatabase.insert(DEFAULTTRACKPOINTS, null, cv);
+		}
+	}
+
+	public Cursor getDefaultTracks() {
+		if (isDatabaseReady()) {
+			// �� ������ ������� �����
+			return mDatabase.rawQuery(STAT_getDefaultTracks, null);
+		}
+
+		return null;
+	}
+
+	public Cursor getDefaultTrack(final long id) {
+		if (isDatabaseReady()) {
+			final String[] args = {Long.toString(id)};
+			// �� ������ ������� �����
+			return mDatabase.rawQuery(STAT_getDefaultTrack, args);
+		}
+
+		return null;
+	}
+
+	public Cursor getDefaultTrackPoints(final long id) {
+		if (isDatabaseReady()) {
+			final String[] args = {Long.toString(id)};
+			// �� ������ ������� �����
+			return mDatabase.rawQuery(STAT_getDefaultTrackPoints, args);
+		}
+
+		return null;
+	}
+
+	public void setDefaultTrackChecked(final int id){
+		if (isDatabaseReady()) {
+			final String[] args = {Long.toString(id)};
+			mDatabase.execSQL(STAT_setDefaultTrackChecked_1, args);
+			mDatabase.execSQL(STAT_setDefaultTrackChecked_2, args);
+		}
+	}
+
+	public void deleteDefaultTrack(final int id) {
+		if (isDatabaseReady()) {
+			beginTransaction();
+			final String[] args = {Long.toString(id)};
+			mDatabase.execSQL(STAT_deleteDefaultTrack_1, args);
+			mDatabase.execSQL(STAT_deleteDefaultTrack_2, args);
+			commitTransaction();
+		}
+	}
+
+	public void deleteAllDefaultTrack() {
+		if (isDatabaseReady()) {
+			mDatabase.execSQL(STAT_CLEAR_DEFAULTTRACKS);
+			mDatabase.execSQL(STAT_CLEAR_DEFAULTTRACKPOINTS);
 		}
 	}
 
