@@ -94,6 +94,8 @@ import biz.navius.saltroad.utils.SearchSuggestionsProvider;
 import biz.navius.saltroad.utils.Ut;
 
 import biz.navius.saltroad.constants.MapConstants;
+import biz.navius.saltroad.copysdcard.CopyDefaultPoiDBFileToSDCardHandler;
+import biz.navius.saltroad.copysdcard.CopyDefaultPoiDBFileToSDCardThreadRunnable;
 import biz.navius.saltroad.copysdcard.CopyMapFileToSDCardHandler;
 import biz.navius.saltroad.copysdcard.CopyMapFileToSDCardThreadRunnable;
 import biz.navius.saltroad.copysdcard.CopyTrackFileToSDCardHandler;
@@ -137,10 +139,13 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 
 	private ProgressDialog mMapDlgWait;
 	private ProgressDialog mTrackDlgWait;
-    Handler mCopyMapFileToSDCardHandler = null;
-    Thread mCopyMapFileToSDCardThreadRunnable = null;
-    Handler mCopyTrackFileToSDCardHandler = null;
-    Thread mCopyTrackFileToSDCardThreadRunnable = null;
+	private ProgressDialog mDefaultPoiDBDlgWait;
+	private Handler mCopyMapFileToSDCardHandler = null;
+	private Thread mCopyMapFileToSDCardThreadRunnable = null;
+	private Handler mCopyTrackFileToSDCardHandler = null;
+	private Thread mCopyTrackFileToSDCardThreadRunnable = null;
+	private Handler mCopyDefaultPoiDBFileToSDCardHandler = null;
+	private Thread mCopyDefaultPoiDBFileToSDCardThreadRunnable = null;
 
 
     private final SensorEventListener mListener = new SensorEventListener() {
@@ -703,6 +708,13 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 			mTrackDlgWait.setCancelable(false);
 			return mTrackDlgWait;
 		}
+		case R.id.defaultpoi_db_wait: {
+			mDefaultPoiDBDlgWait = new ProgressDialog(this);
+			mDefaultPoiDBDlgWait.setMessage("Please wait while default poi loading...");
+			mDefaultPoiDBDlgWait.setIndeterminate(true);
+			mDefaultPoiDBDlgWait.setCancelable(false);
+			return mDefaultPoiDBDlgWait;
+		}
 		}
 
 		return null;
@@ -992,48 +1004,6 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 			}
 	}
 	
-	private void copyMapFileToSDCard() {
-    	if (mCopyMapFileToSDCardHandler == null)
-    	{
-    		mCopyMapFileToSDCardHandler = new CopyMapFileToSDCardHandler(this);
-    		mCopyMapFileToSDCardThreadRunnable = new Thread(new CopyMapFileToSDCardThreadRunnable(mCopyMapFileToSDCardHandler, this));
-    		mCopyMapFileToSDCardThreadRunnable.start();
-    	}
-    	if (mCopyMapFileToSDCardThreadRunnable.getState() != Thread.State.TERMINATED)
-    	{
-    		Ut.dd("thread is new or alive, but not terminated");
-    	}
-    	else
-    	{
-    		Ut.dd("thread is likely dead. starting now");
-    		//you have to create a new thread.
-    		//no way to resurrect a dead thread.
-    		mCopyMapFileToSDCardThreadRunnable = new Thread(new CopyMapFileToSDCardThreadRunnable(mCopyMapFileToSDCardHandler, this));
-    		mCopyMapFileToSDCardThreadRunnable.start();
-    	}
-	}
-
-	private void copyTrackFileToSDCard() {
-    	if (mCopyTrackFileToSDCardHandler == null)
-    	{
-    		mCopyTrackFileToSDCardHandler = new CopyTrackFileToSDCardHandler(this);
-    		mCopyTrackFileToSDCardThreadRunnable = new Thread(new CopyTrackFileToSDCardThreadRunnable(mCopyTrackFileToSDCardHandler, this, mPoiManager));
-    		mCopyTrackFileToSDCardThreadRunnable.start();
-    	}
-    	if (mCopyTrackFileToSDCardThreadRunnable.getState() != Thread.State.TERMINATED)
-    	{
-    		Ut.dd("thread is new or alive, but not terminated");
-    	}
-    	else
-    	{
-    		Ut.dd("thread is likely dead. starting now");
-    		//you have to create a new thread.
-    		//no way to resurrect a dead thread.
-    		mCopyTrackFileToSDCardThreadRunnable = new Thread(new CopyTrackFileToSDCardThreadRunnable(mCopyTrackFileToSDCardHandler, this, mPoiManager));
-    		mCopyTrackFileToSDCardThreadRunnable.start();
-    	}
-	}
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch(requestCode){
@@ -1222,12 +1192,94 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		dismissDialog(R.id.track_dialog_wait);
     }
 
-    private void setDefaultMapTrack() {
+    public void copyDefaultPoiDBFileToSDCardSuccessPreference(Boolean success) {
+		SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
+		SharedPreferences.Editor editor1 = settings.edit();
+
+    	if (success) {
+    		editor1.putBoolean("copy_defaultpoi_to_sdcard_success", true);
+    		editor1.commit();
+			mOsmv.invalidate();
+    	} else {
+    		editor1.putBoolean("copy_defaultpoi_to_sdcard_success", false);
+    		editor1.commit();
+    	}
+		dismissDialog(R.id.defaultpoi_db_wait);
+    }
+    
+	private void copyMapFileToSDCard() {
+    	if (mCopyMapFileToSDCardHandler == null)
+    	{
+    		mCopyMapFileToSDCardHandler = new CopyMapFileToSDCardHandler(this);
+    		mCopyMapFileToSDCardThreadRunnable = new Thread(new CopyMapFileToSDCardThreadRunnable(mCopyMapFileToSDCardHandler, this));
+    		mCopyMapFileToSDCardThreadRunnable.start();
+    	}
+    	if (mCopyMapFileToSDCardThreadRunnable.getState() != Thread.State.TERMINATED)
+    	{
+    		Ut.dd("thread is new or alive, but not terminated");
+    	}
+    	else
+    	{
+    		Ut.dd("thread is likely dead. starting now");
+    		//you have to create a new thread.
+    		//no way to resurrect a dead thread.
+    		mCopyMapFileToSDCardThreadRunnable = new Thread(new CopyMapFileToSDCardThreadRunnable(mCopyMapFileToSDCardHandler, this));
+    		mCopyMapFileToSDCardThreadRunnable.start();
+    	}
+	}
+
+	private void copyTrackFileToSDCard() {
+    	if (mCopyTrackFileToSDCardHandler == null)
+    	{
+    		mCopyTrackFileToSDCardHandler = new CopyTrackFileToSDCardHandler(this);
+    		mCopyTrackFileToSDCardThreadRunnable = new Thread(new CopyTrackFileToSDCardThreadRunnable(mCopyTrackFileToSDCardHandler, this, mPoiManager));
+    		mCopyTrackFileToSDCardThreadRunnable.start();
+    	}
+    	if (mCopyTrackFileToSDCardThreadRunnable.getState() != Thread.State.TERMINATED)
+    	{
+    		Ut.dd("thread is new or alive, but not terminated");
+    	}
+    	else
+    	{
+    		Ut.dd("thread is likely dead. starting now");
+    		//you have to create a new thread.
+    		//no way to resurrect a dead thread.
+    		mCopyTrackFileToSDCardThreadRunnable = new Thread(new CopyTrackFileToSDCardThreadRunnable(mCopyTrackFileToSDCardHandler, this, mPoiManager));
+    		mCopyTrackFileToSDCardThreadRunnable.start();
+    	}
+	}
+
+	private void copyDefaultPoiDBFileToSDCard() {
+    	if (mCopyDefaultPoiDBFileToSDCardHandler == null)
+    	{
+    		mCopyDefaultPoiDBFileToSDCardHandler = new CopyDefaultPoiDBFileToSDCardHandler(this);
+    		mCopyDefaultPoiDBFileToSDCardThreadRunnable = new Thread(new CopyDefaultPoiDBFileToSDCardThreadRunnable(mCopyDefaultPoiDBFileToSDCardHandler, this));
+    		mCopyDefaultPoiDBFileToSDCardThreadRunnable.start();
+    	}
+    	if (mCopyDefaultPoiDBFileToSDCardThreadRunnable.getState() != Thread.State.TERMINATED)
+    	{
+    		Ut.dd("thread is new or alive, but not terminated");
+    	}
+    	else
+    	{
+    		Ut.dd("thread is likely dead. starting now");
+    		//you have to create a new thread.
+    		//no way to resurrect a dead thread.
+    		mCopyDefaultPoiDBFileToSDCardThreadRunnable = new Thread(new CopyDefaultPoiDBFileToSDCardThreadRunnable(mCopyDefaultPoiDBFileToSDCardHandler, this));
+    		mCopyDefaultPoiDBFileToSDCardThreadRunnable.start();
+    	}
+	}
+
+	private void setDefaultMapTrack() {
 		SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
 		
 		File mapFolder = Ut.getRMapsMapsDir(this);
 		String mapFilePath = mapFolder.getAbsolutePath() + File.separator + MapConstants.MAP_FILE_NAME;
 		File mapFile = new File(mapFilePath);
+		
+		File mainFolder = Ut.getRMapsMainDir(this, "data");
+		String defaultPoiDBFilePath = mainFolder.getAbsolutePath() + File.separator + MapConstants.DEFAULTPOI_DB;
+		File defaultPoiDBFile = new File(defaultPoiDBFilePath);
 
 		File trackFolder = Ut.getRMapsDefaultImportDir(this);
 		
@@ -1249,6 +1301,10 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		if (!settings.getBoolean("copy_track_to_sdcard_success", false) || !isExistTrackFile) {
 			showDialog(R.id.track_dialog_wait);
 			MainMapActivity.this.copyTrackFileToSDCard();
+		}
+		if (!settings.getBoolean("copy_defaultpoi_to_sdcard_success", false) || !defaultPoiDBFile.exists()) {
+			showDialog(R.id.defaultpoi_db_wait);
+			MainMapActivity.this.copyDefaultPoiDBFileToSDCard();
 		}
     }
 }

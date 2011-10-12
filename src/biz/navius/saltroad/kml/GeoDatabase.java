@@ -520,6 +520,14 @@ public class GeoDatabase implements PoiConstants{
 		}
 	}
 
+	public Cursor getDefaultPoiListCursor() {
+		if (isDatabaseReady()) {
+			return mDatabase.rawQuery(STAT_GET_DEFAULTPOI_LIST, null);
+		}
+
+		return null;
+	}
+
 	public int saveTrackFromWriter(final SQLiteDatabase db){
 		int res = 0;
 		if (isDatabaseReady()) {
