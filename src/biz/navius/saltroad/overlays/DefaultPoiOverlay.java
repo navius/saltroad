@@ -9,7 +9,6 @@ import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay;
-import org.andnav.osm.views.util.OpenStreetMapTileFilesystemProvider;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
 import android.app.Activity;
@@ -21,7 +20,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.Message;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -199,7 +197,7 @@ public class DefaultPoiOverlay extends OpenStreetMapViewOverlay {
 			try{
 				marker = mCtx.getResources().getDrawable(iconID);
 			} catch (Exception e) {
-				marker = mCtx.getResources().getDrawable(R.drawable.poi);
+				marker = mCtx.getResources().getDrawable(R.drawable.default_poi_icon);
 			}
 			mBtnMap.put(key, marker);
 		}
@@ -339,7 +337,10 @@ public class DefaultPoiOverlay extends OpenStreetMapViewOverlay {
 				Double bottom = mLastMapCenter.getLatitude() + mdeltaY;
 				Double top = mLastMapCenter.getLatitude() - mdeltaY;
 				
-				final String[] args = {Integer.toString(mLastZoom + 1),Double.toString(left),Double.toString(right),Double.toString(bottom),Double.toString(top)};
+				// TODO D.Adachi
+				String lang = "ja";
+				
+				final String[] args = {lang, Double.toString(left), Double.toString(right), Double.toString(top), Double.toString(bottom)};
 
 				if(db != null){
 					mItemList = doCreatePoiListFromCursor(db.rawQuery(PoiConstants.STAT_GET_DEFAULTPOI_LIST, args));

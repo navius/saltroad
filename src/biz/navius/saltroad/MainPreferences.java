@@ -32,12 +32,6 @@ public class MainPreferences extends PreferenceActivity implements OnSharedPrefe
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.mainpreferences);
 
-
-		final PreferenceGroup prefcatMainPoi = (PreferenceGroup) findPreference("prefcat_main_poi");
-		final PreferenceGroup prefcatMainTrackwriter = (PreferenceGroup) findPreference("prefcat_main_trackwriter");
-		getPreferenceScreen().removePreference(prefcatMainPoi);
-		getPreferenceScreen().removePreference(prefcatMainTrackwriter);
-
 		final PreferenceGroup prefMapsgroup = (PreferenceGroup) findPreference("pref_predefmaps_mapsgroup");
 
 		final SAXParserFactory fac = SAXParserFactory.newInstance();

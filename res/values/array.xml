@@ -190,6 +190,18 @@
 		<item>CHINESE (SIMPLIFIED)</item>
 		<item>CHINESE (TRADITIONAL)</item>
 	</string-array>
+	<string-array name="default_poi_languages_codes">
+		<item>en</item>
+		<item>en</item>
+		<item>en</item>
+		<item>ja</item>
+	</string-array>
+	<string-array name="default_poi_languages_names">
+		<item>es_US</item>
+		<item>es_AU</item>
+		<item>es_GB</item>
+		<item>ja_JP</item>
+	</string-array>
 	<string-array name="download_maps_names">
 		<item>OFFLINE MAP MIN 11-14</item>
 		<item>OFFLINE MAP MEDIUM 11-15</item>

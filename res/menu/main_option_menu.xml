@@ -16,7 +16,7 @@
 	<item
 		android:id="@+id/poilist"
 		android:icon="@android:drawable/ic_menu_myplaces"
-		android:title="@string/menu_poilist" android:visible="false"></item>
+		android:title="@string/menu_poilist" android:visible="true"></item>
 	<item
 		android:id="@+id/mylocation"
 		android:icon="@android:drawable/ic_menu_mylocation"
