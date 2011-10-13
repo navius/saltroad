@@ -86,7 +86,7 @@ public class DefaultPoiOverlay extends OpenStreetMapViewOverlay {
         mLastZoom = -1;
         mThread = new PoiListThread();
 
-		this.mT = (RelativeLayout) LayoutInflater.from(ctx).inflate(R.layout.poi_descr, null);
+		this.mT = (RelativeLayout) LayoutInflater.from(ctx).inflate(R.layout.default_poi, null);
 		this.mT.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
 		DisplayMetrics metrics = new DisplayMetrics();
@@ -159,20 +159,33 @@ public class DefaultPoiOverlay extends OpenStreetMapViewOverlay {
 
 	protected void onDrawItem(Canvas c, int index, Point screenCoords) {
 		final DefaultPoiPoint focusedItem = mItemList.get(index);
-		
-		int iconID = mCtx.getResources().getIdentifier(focusedItem.IconName, "drawable", mCtx.getPackageName());
+		int iconID;
+		int imageID;
 
+		try{
+			iconID = mCtx.getResources().getIdentifier(focusedItem.IconName, "drawable", mCtx.getPackageName());
+		} catch (Exception e) {
+			iconID = R.drawable.default_poi_icon;
+		}
+		
+		try{
+			imageID = mCtx.getResources().getIdentifier(focusedItem.ImageName, "drawable", mCtx.getPackageName());
+		} catch (Exception e) {
+			imageID = R.drawable.no_image;
+		}
 
 		if (index == mTapIndex) {
 			final ImageView pic = (ImageView) mT.findViewById(R.id.pic);
 			final TextView title = (TextView) mT.findViewById(R.id.poi_title);
 			final TextView descr = (TextView) mT.findViewById(R.id.descr);
 			final TextView coord = (TextView) mT.findViewById(R.id.coord);
+			final ImageView image = (ImageView) mT.findViewById(R.id.image);
 			
 			pic.setImageResource(iconID);
 			title.setText(focusedItem.Title);
 			descr.setText(focusedItem.Descr);
 			coord.setText(Ut.formatGeoPoint(focusedItem.GeoPoint));
+			image.setImageResource(imageID);
 
 			mT.measure(0, 0);
 			mT.layout(0, 0, mT.getMeasuredWidth(), mT.getMeasuredHeight());
@@ -184,40 +197,40 @@ public class DefaultPoiOverlay extends OpenStreetMapViewOverlay {
 			
 		} else {
 
-		final int left = screenCoords.x - this.mMarkerHotSpot.x;
-		final int right = left + this.mMarkerWidth;
-		final int top = screenCoords.y - this.mMarkerHotSpot.y;
-		final int bottom = top + this.mMarkerHeight;
-
-		Integer key = new Integer(iconID);
-		Drawable marker = null;
-		if(mBtnMap.containsKey(key))
-			marker = mBtnMap.get(key);
-		else {
-			try{
-				marker = mCtx.getResources().getDrawable(iconID);
-			} catch (Exception e) {
-				marker = mCtx.getResources().getDrawable(R.drawable.default_poi_icon);
+			final int left = screenCoords.x - this.mMarkerHotSpot.x;
+			final int right = left + this.mMarkerWidth;
+			final int top = screenCoords.y - this.mMarkerHotSpot.y;
+			final int bottom = top + this.mMarkerHeight;
+	
+			Integer key = new Integer(iconID);
+			Drawable marker = null;
+			if(mBtnMap.containsKey(key))
+				marker = mBtnMap.get(key);
+			else {
+				try{
+					marker = mCtx.getResources().getDrawable(iconID);
+				} catch (Exception e) {
+					marker = mCtx.getResources().getDrawable(R.drawable.default_poi_icon);
+				}
+				mBtnMap.put(key, marker);
 			}
-			mBtnMap.put(key, marker);
-		}
-
-		marker.setBounds(left, top, right, bottom);
-
-		marker.draw(c);
-
-		if(OpenStreetMapViewConstants.DEBUGMODE){
-			final int pxUp = 2;
-			final int left2 = (int)(screenCoords.x + mDensity*(5 - pxUp));
-			final int right2 = (int)(screenCoords.x + mDensity*(38 + pxUp));
-			final int top2 = (int)(screenCoords.y - this.mMarkerHotSpot.y - mDensity*(pxUp));
-			final int bottom2 = (int)(top2 + mDensity*(33 + pxUp));
-			Paint p = new Paint();
-			c.drawLine(left2, top2, right2, bottom2, p);
-			c.drawLine(right2, top2, left2, bottom2, p);
-			
-			c.drawLine(screenCoords.x - 5, screenCoords.y - 5, screenCoords.x + 5, screenCoords.y + 5, p);
-			c.drawLine(screenCoords.x - 5, screenCoords.y + 5, screenCoords.x + 5, screenCoords.y - 5, p);
+	
+			marker.setBounds(left, top, right, bottom);
+	
+			marker.draw(c);
+	
+			if(OpenStreetMapViewConstants.DEBUGMODE){
+				final int pxUp = 2;
+				final int left2 = (int)(screenCoords.x + mDensity*(5 - pxUp));
+				final int right2 = (int)(screenCoords.x + mDensity*(38 + pxUp));
+				final int top2 = (int)(screenCoords.y - this.mMarkerHotSpot.y - mDensity*(pxUp));
+				final int bottom2 = (int)(top2 + mDensity*(33 + pxUp));
+				Paint p = new Paint();
+				c.drawLine(left2, top2, right2, bottom2, p);
+				c.drawLine(right2, top2, left2, bottom2, p);
+				
+				c.drawLine(screenCoords.x - 5, screenCoords.y - 5, screenCoords.x + 5, screenCoords.y + 5, p);
+				c.drawLine(screenCoords.x - 5, screenCoords.y + 5, screenCoords.x + 5, screenCoords.y - 5, p);
 			}
 		}
 	}

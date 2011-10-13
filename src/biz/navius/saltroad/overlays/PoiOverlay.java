@@ -189,40 +189,40 @@ public class PoiOverlay extends OpenStreetMapViewOverlay {
 			
 		} else {
 
-		final int left = screenCoords.x - this.mMarkerHotSpot.x;
-		final int right = left + this.mMarkerWidth;
-		final int top = screenCoords.y - this.mMarkerHotSpot.y;
-		final int bottom = top + this.mMarkerHeight;
-
-		Integer key = new Integer(focusedItem.IconId);
-		Drawable marker = null;
-		if(mBtnMap.containsKey(key))
-			marker = mBtnMap.get(key);
-		else {
-			try{
-				marker = mCtx.getResources().getDrawable(focusedItem.IconId);
-			} catch (Exception e) {
-				marker = mCtx.getResources().getDrawable(R.drawable.poi);
+			final int left = screenCoords.x - this.mMarkerHotSpot.x;
+			final int right = left + this.mMarkerWidth;
+			final int top = screenCoords.y - this.mMarkerHotSpot.y;
+			final int bottom = top + this.mMarkerHeight;
+	
+			Integer key = new Integer(focusedItem.IconId);
+			Drawable marker = null;
+			if(mBtnMap.containsKey(key))
+				marker = mBtnMap.get(key);
+			else {
+				try{
+					marker = mCtx.getResources().getDrawable(focusedItem.IconId);
+				} catch (Exception e) {
+					marker = mCtx.getResources().getDrawable(R.drawable.poi);
+				}
+				mBtnMap.put(key, marker);
 			}
-			mBtnMap.put(key, marker);
-		}
-
-		marker.setBounds(left, top, right, bottom);
-
-		marker.draw(c);
-
-		if(OpenStreetMapViewConstants.DEBUGMODE){
-			final int pxUp = 2;
-			final int left2 = (int)(screenCoords.x + mDensity*(5 - pxUp));
-			final int right2 = (int)(screenCoords.x + mDensity*(38 + pxUp));
-			final int top2 = (int)(screenCoords.y - this.mMarkerHotSpot.y - mDensity*(pxUp));
-			final int bottom2 = (int)(top2 + mDensity*(33 + pxUp));
-			Paint p = new Paint();
-			c.drawLine(left2, top2, right2, bottom2, p);
-			c.drawLine(right2, top2, left2, bottom2, p);
-			
-			c.drawLine(screenCoords.x - 5, screenCoords.y - 5, screenCoords.x + 5, screenCoords.y + 5, p);
-			c.drawLine(screenCoords.x - 5, screenCoords.y + 5, screenCoords.x + 5, screenCoords.y - 5, p);
+	
+			marker.setBounds(left, top, right, bottom);
+	
+			marker.draw(c);
+	
+			if(OpenStreetMapViewConstants.DEBUGMODE){
+				final int pxUp = 2;
+				final int left2 = (int)(screenCoords.x + mDensity*(5 - pxUp));
+				final int right2 = (int)(screenCoords.x + mDensity*(38 + pxUp));
+				final int top2 = (int)(screenCoords.y - this.mMarkerHotSpot.y - mDensity*(pxUp));
+				final int bottom2 = (int)(top2 + mDensity*(33 + pxUp));
+				Paint p = new Paint();
+				c.drawLine(left2, top2, right2, bottom2, p);
+				c.drawLine(right2, top2, left2, bottom2, p);
+				
+				c.drawLine(screenCoords.x - 5, screenCoords.y - 5, screenCoords.x + 5, screenCoords.y + 5, p);
+				c.drawLine(screenCoords.x - 5, screenCoords.y + 5, screenCoords.x + 5, screenCoords.y - 5, p);
 			}
 		}
 	}
