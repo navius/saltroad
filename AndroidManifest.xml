@@ -2,7 +2,7 @@
 <manifest android:sharedUserId="@string/app_user_id"
     android:sharedUserLabel="@string/app_user_label"
     xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto"
-    package="biz.navius.saltroad" android:versionCode="104" android:versionName="0.9.3">
+    package="biz.navius.saltroad" android:versionCode="105" android:versionName="0.9.4">
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
@@ -59,6 +59,7 @@
 <activity android:name=".kml.ImportTrackActivity"></activity>
 <activity android:name=".kml.TrackActivity"></activity>
 <activity android:name=".kml.TrackStatActivity"></activity>
+<activity android:name=".defaultpoi.DefaultPoiDetailActivity"></activity>
 </application>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-sdk android:minSdkVersion="4"/>

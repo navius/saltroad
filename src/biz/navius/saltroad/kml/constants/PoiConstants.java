@@ -52,14 +52,16 @@ public interface PoiConstants {
 		+ " AND poi.lat BETWEEN @4 AND @5"
 		+ " ORDER BY lat, lon";
 
-	public static final String STAT_GET_DEFAULTPOI_LIST = "SELECT shops.latitude, shops.longitude, shopdetails.g_name, shopdetails.g_comment, shops.shopid, shops.shopid _id, shops.shopid ID, shops.category, categories.iconname, shopdetails.g_photo1 FROM shops INNER JOIN shopdetails ON shopdetails.shopid = shops.shopid INNER JOIN categories ON categories.category_cd = shops.category WHERE shopdetails.lang = @1 AND shops.del_flg = 0 AND shopdetails.del_flg = 0 "
+	public static final String STAT_GET_DEFAULTPOI_LIST = "SELECT shops.latitude, shops.longitude, shopdetails.g_name, shopdetails.g_comment, shopdetails.shopdetailid, shopdetails.shopdetailid _id, shopdetails.shopdetailid ID, shops.category, categories.iconname, shopdetails.g_photo1 FROM shops INNER JOIN shopdetails ON shopdetails.shopid = shops.shopid INNER JOIN categories ON categories.category_cd = shops.category WHERE shopdetails.lang = @1 AND shops.del_flg = 0 AND shopdetails.del_flg = 0 "
 		+ "AND shops.longitude BETWEEN @2 AND @3"
 		+ " AND shops.latitude BETWEEN @4 AND @5"
+		+" AND categories.minzoom <= @6"
 		+ " ORDER BY shops.latitude, shops.longitude";
 	
 	public static final String STAT_PoiCategoryList = "SELECT name, categoryid _id FROM category ORDER BY name";
 	public static final String STAT_ActivityList = "SELECT name, activityid _id FROM activity ORDER BY activityid";
 	public static final String STAT_getPoi = "SELECT lat, lon, name, descr, pointid, alt, hidden, categoryid, pointsourceid, iconid FROM points WHERE pointid = @1";
+	public static final String STAT_getDefaultPoi = "SELECT shops.latitude, shops.longitude, shopdetails.g_name, shopdetails.g_comment, shops.shopid, shops.shopid _id, shops.shopid ID, shops.category, categories.iconname, shopdetails.g_photo1 FROM shops INNER JOIN shopdetails ON shopdetails.shopid = shops.shopid INNER JOIN categories ON categories.category_cd = shops.category WHERE shopdetails.shopdetailid = @1";
 	public static final String STAT_deletePoi = "DELETE FROM points WHERE pointid = @1";
 	public static final String STAT_deletePoiCategory = "DELETE FROM category WHERE categoryid = @1";
 	public static final String STAT_getPoiCategory = "SELECT name, categoryid, hidden, iconid, minzoom FROM category WHERE categoryid = @1";

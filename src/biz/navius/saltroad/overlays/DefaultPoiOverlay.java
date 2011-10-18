@@ -13,6 +13,7 @@ import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
@@ -23,17 +24,19 @@ import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import biz.navius.saltroad.R;
+import biz.navius.saltroad.defaultpoi.DefaultPoiDetailActivity;
 import biz.navius.saltroad.kml.DefaultPoiPoint;
 import biz.navius.saltroad.kml.constants.PoiConstants;
 import biz.navius.saltroad.utils.Ut;
 
-public class DefaultPoiOverlay extends OpenStreetMapViewOverlay {
+public class DefaultPoiOverlay extends OpenStreetMapViewOverlay implements View.OnClickListener {
 	private Context mCtx;
 	//private PoiManager mPoiManager;
 	private int mTapIndex;
@@ -194,7 +197,7 @@ public class DefaultPoiOverlay extends OpenStreetMapViewOverlay {
 			c.translate(screenCoords.x, screenCoords.y - pic.getMeasuredHeight() - pic.getTop());
 			mT.draw(c);
 			c.restore();
-			
+
 		} else {
 
 			final int left = screenCoords.x - this.mMarkerHotSpot.x;
@@ -353,7 +356,7 @@ public class DefaultPoiOverlay extends OpenStreetMapViewOverlay {
 				// TODO D.Adachi
 				String lang = "ja";
 				
-				final String[] args = {lang, Double.toString(left), Double.toString(right), Double.toString(top), Double.toString(bottom)};
+				final String[] args = {lang, Double.toString(left), Double.toString(right), Double.toString(top), Double.toString(bottom), Integer.toString(mLastZoom + 1)};
 
 				if(db != null){
 					mItemList = doCreatePoiListFromCursor(db.rawQuery(PoiConstants.STAT_GET_DEFAULTPOI_LIST, args));
@@ -365,8 +368,6 @@ public class DefaultPoiOverlay extends OpenStreetMapViewOverlay {
 
 			super.run();
 		}
-			
-
 	}
 
 	private List<DefaultPoiPoint> doCreatePoiListFromCursor(Cursor c){
@@ -384,6 +385,14 @@ public class DefaultPoiOverlay extends OpenStreetMapViewOverlay {
 		return items;
 	}
 
+	public void onClick(View target) {
+		switch(target.getId()) {
+		case R.id.image:
+			mCtx.startActivity((new Intent(mCtx, DefaultPoiDetailActivity.class)).putExtra("id", 1));
+			break;
+		default:
+		}
+	}
 }
 
 
