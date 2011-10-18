@@ -73,6 +73,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 
+import biz.navius.saltroad.kml.DefaultPoiPoint;
 import biz.navius.saltroad.kml.PoiActivity;
 import biz.navius.saltroad.kml.PoiListActivity;
 import biz.navius.saltroad.kml.PoiManager;
@@ -101,6 +102,7 @@ import biz.navius.saltroad.copysdcard.CopyMapFileToSDCardHandler;
 import biz.navius.saltroad.copysdcard.CopyMapFileToSDCardThreadRunnable;
 import biz.navius.saltroad.copysdcard.CopyTrackFileToSDCardHandler;
 import biz.navius.saltroad.copysdcard.CopyTrackFileToSDCardThreadRunnable;
+import biz.navius.saltroad.defaultpoi.DefaultPoiDetailActivity;
 
 public class MainMapActivity extends OpenStreetMapActivity implements OpenStreetMapConstants {
 	// ===========================================================
@@ -128,6 +130,7 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 	private boolean mAutoFollow = true;
 	private Handler mCallbackHandler = new MainActivityCallbackHandler();
 	private ImageView ivAutoFollow;
+	private ImageView ivDefaultPoi;
 	private CompassView mCompassView;
 	private SensorManager mOrientationSensorManager;
 	private boolean mCompassEnabled;
@@ -370,6 +373,29 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		        scaleParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		        rl.addView(ivZoomOut2, scaleParams);
 	        };
+ 
+
+	        
+	        /* Create a ImageView with a default poi detail Icon. */
+	        ivDefaultPoi = new ImageView(this);
+	        ivDefaultPoi.setImageResource(R.drawable.ic_menu_info_details);
+	        /* Create RelativeLayoutParams, that position in in the top center. */
+	        final RelativeLayout.LayoutParams defaultpoiParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+	        defaultpoiParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+	        defaultpoiParams.addRule((sideBottom == 2 ? false : true) ? RelativeLayout.ALIGN_PARENT_TOP : RelativeLayout.ALIGN_PARENT_BOTTOM);
+	        rl.addView(ivDefaultPoi, defaultpoiParams);
+	        ivDefaultPoi.setVisibility(ImageView.INVISIBLE);
+
+	        ivDefaultPoi.setOnClickListener(new OnClickListener(){
+				// @Override
+				public void onClick(View v) {
+					int tapIndex = mDefaultPoiOverlay.getTapIndex();
+					DefaultPoiPoint defaultPoiPoint = null;
+					if (tapIndex >= 0)
+						defaultPoiPoint = mDefaultPoiOverlay.getDefaultPoiPoint(tapIndex);
+						startActivity((new Intent(MainMapActivity.this, DefaultPoiDetailActivity.class)).putExtra("id", defaultPoiPoint.getId()));
+				}
+	        });
         }
 
 		mDrivingDirectionUp = pref.getBoolean("pref_drivingdirectionup", true);
@@ -988,8 +1014,15 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 
 		setTitle();
 
-		if(mDefaultPoiOverlay != null)
-			mDefaultPoiOverlay.setTapIndex(settings.getInt("curShowDefaultPoiId", -1));
+		int defaultPoiId = settings.getInt("curShowDefaultPoiId", -1);
+
+		if(mDefaultPoiOverlay != null) {
+			mDefaultPoiOverlay.setTapIndex(defaultPoiId);
+			if (defaultPoiId >= 0)
+				defaultPoiDetailButtonEnable(true);
+			else
+				defaultPoiDetailButtonEnable(false);
+		}
 
 		if(mPoiOverlay != null)
 			mPoiOverlay.setTapIndex(settings.getInt("curShowPoiId", -1));
@@ -1220,7 +1253,14 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		dismissDialog(R.id.defaultpoi_db_wait);
     }
     
-	private void copyMapFileToSDCard() {
+	public void defaultPoiDetailButtonEnable(Boolean isEnable) {
+		if (isEnable)
+	        ivDefaultPoi.setVisibility(ImageView.VISIBLE);
+		else
+	        ivDefaultPoi.setVisibility(ImageView.INVISIBLE);
+	}
+
+    private void copyMapFileToSDCard() {
     	if (mCopyMapFileToSDCardHandler == null)
     	{
     		mCopyMapFileToSDCardHandler = new CopyMapFileToSDCardHandler(this);

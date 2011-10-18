@@ -13,7 +13,6 @@ import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
@@ -24,19 +23,18 @@ import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
+import biz.navius.saltroad.MainMapActivity;
 import biz.navius.saltroad.R;
-import biz.navius.saltroad.defaultpoi.DefaultPoiDetailActivity;
 import biz.navius.saltroad.kml.DefaultPoiPoint;
 import biz.navius.saltroad.kml.constants.PoiConstants;
 import biz.navius.saltroad.utils.Ut;
 
-public class DefaultPoiOverlay extends OpenStreetMapViewOverlay implements View.OnClickListener {
+public class DefaultPoiOverlay extends OpenStreetMapViewOverlay {
 	private Context mCtx;
 	//private PoiManager mPoiManager;
 	private int mTapIndex;
@@ -95,12 +93,16 @@ public class DefaultPoiOverlay extends OpenStreetMapViewOverlay implements View.
 		DisplayMetrics metrics = new DisplayMetrics();
 		((Activity) ctx).getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		mDensity = metrics.density;
+		
 	}
 
 	@Override
 	public void onDraw(Canvas c, OpenStreetMapView mapView) {
 		final OpenStreetMapViewProjection pj = mapView.getProjection();
 		final Point curScreenCoords = new Point();
+
+		MainMapActivity mainMapActivity = (MainMapActivity)mCtx;
+		mainMapActivity.defaultPoiDetailButtonEnable(false);
 
 		if (mCanUpdateList){
 			boolean looseCenter = false;
@@ -156,6 +158,7 @@ public class DefaultPoiOverlay extends OpenStreetMapViewOverlay implements View.
 				onDrawItem(c, mTapIndex, curScreenCoords);
 
 				c.restore();
+				mainMapActivity.defaultPoiDetailButtonEnable(true);
 			}
 		}
 	}
@@ -298,10 +301,12 @@ public class DefaultPoiOverlay extends OpenStreetMapViewOverlay implements View.
 	}
 
 	protected boolean onTap(int index) {
-		if(mTapIndex == index)
+		if(mTapIndex == index) {
 			mTapIndex = -1;
-		else
+		}
+		else {
 			mTapIndex = index;
+		}
 
 		if(this.mOnItemTapListener != null)
 			return this.mOnItemTapListener.onItemTap(index, this.mItemList.get(index));
@@ -385,14 +390,6 @@ public class DefaultPoiOverlay extends OpenStreetMapViewOverlay implements View.
 		return items;
 	}
 
-	public void onClick(View target) {
-		switch(target.getId()) {
-		case R.id.image:
-			mCtx.startActivity((new Intent(mCtx, DefaultPoiDetailActivity.class)).putExtra("id", 1));
-			break;
-		default:
-		}
-	}
 }
 
 

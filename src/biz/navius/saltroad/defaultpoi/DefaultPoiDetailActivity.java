@@ -76,6 +76,7 @@ public class DefaultPoiDetailActivity extends Activity {
 					c.close();
 
 				}
+				db.close();
 			}
 		}
 

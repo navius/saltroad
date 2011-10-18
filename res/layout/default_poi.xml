@@ -25,6 +25,6 @@
 	<ImageView android:layout_height="78dp" android:src="@drawable/no_image"
 		android:layout_width="78dp" android:layout_alignParentTop="true"
 		android:layout_toRightOf="@+id/pic" android:layout_marginTop="1dp"
-		android:id="@+id/image" android:onClick="onClick"></ImageView>
+		android:id="@+id/image"></ImageView>
 
 </RelativeLayout>
