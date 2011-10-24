@@ -26,6 +26,8 @@
 		</ListPreference>
 		<PreferenceScreen android:title="@string/pref_main_usermaps_download" android:key="pref_main_usermaps_download" android:summary="@string/pref_main_usermaps_download_summary">
 			<biz.navius.saltroad.utils.DownloadMapPreference
+				android:title="@string/pref_download_min_map_title"  android:key="pref_download_min_map" android:summary="@string/pref_download_min_map_summary"/>
+			<biz.navius.saltroad.utils.DownloadMapPreference
 				android:title="@string/pref_download_medium_map_title" android:key="pref_download_medium_map" android:summary="@string/pref_download_medium_map_summary"/>
 			<biz.navius.saltroad.utils.DownloadMapPreference
 				android:title="@string/pref_download_max_map_title"  android:key="pref_download_max_map" android:summary="@string/pref_download_max_map_summary"/>

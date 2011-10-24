@@ -43,7 +43,11 @@ public class DownloadMapPreference extends Preference {
 	    String filename = "";
 	    
 	    Ut.dd(getKey());
-	    if (getKey().equals("pref_download_medium_map")) {
+	    if (getKey().equals("pref_download_min_map")) {
+		    filename = MapConstants.MIN_MAP_FILE_NAME;
+		    mMapName = MapConstants.MIN_MAP_NAME;
+	    }
+	    else if (getKey().equals("pref_download_medium_map")) {
 		    filename = MapConstants.MEDIUM_MAP_FILE_NAME;
 		    mMapName = MapConstants.MEDIUM_MAP_NAME;
 	    }
