@@ -98,8 +98,6 @@ import biz.navius.saltroad.utils.Ut;
 import biz.navius.saltroad.constants.MapConstants;
 import biz.navius.saltroad.copysdcard.CopyDefaultPoiDBFileToSDCardHandler;
 import biz.navius.saltroad.copysdcard.CopyDefaultPoiDBFileToSDCardThreadRunnable;
-import biz.navius.saltroad.copysdcard.CopyMapFileToSDCardHandler;
-import biz.navius.saltroad.copysdcard.CopyMapFileToSDCardThreadRunnable;
 import biz.navius.saltroad.copysdcard.CopyTrackFileToSDCardHandler;
 import biz.navius.saltroad.copysdcard.CopyTrackFileToSDCardThreadRunnable;
 import biz.navius.saltroad.defaultpoi.DefaultPoiDetailActivity;
@@ -142,11 +140,8 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 	private String ACTION_SHOW_POINTS = "biz.navius.saltroad.action.SHOW_POINTS";
 	private int mMarkerIndex;
 
-	private ProgressDialog mMapDlgWait;
 	private ProgressDialog mTrackDlgWait;
 	private ProgressDialog mDefaultPoiDBDlgWait;
-	private Handler mCopyMapFileToSDCardHandler = null;
-	private Thread mCopyMapFileToSDCardThreadRunnable = null;
 	private Handler mCopyTrackFileToSDCardHandler = null;
 	private Thread mCopyTrackFileToSDCardThreadRunnable = null;
 	private Handler mCopyDefaultPoiDBFileToSDCardHandler = null;
@@ -726,13 +721,6 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 					editor.commit();
 				}
 			}).create();
-		case R.id.map_dialog_wait: {
-			mMapDlgWait = new ProgressDialog(this);
-			mMapDlgWait.setMessage("Please wait while map loading...");
-			mMapDlgWait.setIndeterminate(true);
-			mMapDlgWait.setCancelable(false);
-			return mMapDlgWait;
-		}
 		case R.id.track_dialog_wait: {
 			mTrackDlgWait = new ProgressDialog(this);
 			mTrackDlgWait.setMessage("Please wait while track loading...");
@@ -1198,29 +1186,6 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		}
 	}
 
-
-    public void copyMapToSDCardSuccessPreference(Boolean success) {
-		SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
-       	SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainMapActivity.this);
-		SharedPreferences.Editor editor1 = settings.edit();
-		SharedPreferences.Editor editor2 = pref.edit();
-		String name = Ut.FileName2ID(MapConstants.MAP_FILE_NAME);
-
-    	if (success) {
-    		editor1.putBoolean("copy_map_to_sdcard_success", true);
-    		editor1.commit();
-           	editor2.putBoolean("pref_usermaps_" + name + "_enabled", true);
-           	editor2.putString("pref_usermaps_" + name + "_name", MapConstants.MAP_NAME);
-    		editor2.commit();
-    	} else {
-    		editor1.putBoolean("copy_map_to_sdcard_success", false);
-    		editor1.commit();
-           	editor2.putBoolean("pref_usermaps_" + name + "_enabled", false);
-    		editor2.commit();
-    	}
-		dismissDialog(R.id.map_dialog_wait);
-   }
-
     public void copyTrackToSDCardSuccessPreference(Boolean success) {
 		SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
 		SharedPreferences.Editor editor1 = settings.edit();
@@ -1258,27 +1223,6 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 	        ivDefaultPoi.setVisibility(ImageView.VISIBLE);
 		else
 	        ivDefaultPoi.setVisibility(ImageView.INVISIBLE);
-	}
-
-    private void copyMapFileToSDCard() {
-    	if (mCopyMapFileToSDCardHandler == null)
-    	{
-    		mCopyMapFileToSDCardHandler = new CopyMapFileToSDCardHandler(this);
-    		mCopyMapFileToSDCardThreadRunnable = new Thread(new CopyMapFileToSDCardThreadRunnable(mCopyMapFileToSDCardHandler, this));
-    		mCopyMapFileToSDCardThreadRunnable.start();
-    	}
-    	if (mCopyMapFileToSDCardThreadRunnable.getState() != Thread.State.TERMINATED)
-    	{
-    		Ut.dd("thread is new or alive, but not terminated");
-    	}
-    	else
-    	{
-    		Ut.dd("thread is likely dead. starting now");
-    		//you have to create a new thread.
-    		//no way to resurrect a dead thread.
-    		mCopyMapFileToSDCardThreadRunnable = new Thread(new CopyMapFileToSDCardThreadRunnable(mCopyMapFileToSDCardHandler, this));
-    		mCopyMapFileToSDCardThreadRunnable.start();
-    	}
 	}
 
 	private void copyTrackFileToSDCard() {
@@ -1326,10 +1270,6 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 	private void setDefaultMapTrack() {
 		SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
 		
-		File mapFolder = Ut.getRMapsMapsDir(this);
-		String mapFilePath = mapFolder.getAbsolutePath() + File.separator + MapConstants.MAP_FILE_NAME;
-		File mapFile = new File(mapFilePath);
-		
 		File mainFolder = Ut.getRMapsMainDir(this, "data");
 		String defaultPoiDBFilePath = mainFolder.getAbsolutePath() + File.separator + MapConstants.DEFAULTPOI_DB;
 		File defaultPoiDBFile = new File(defaultPoiDBFilePath);
@@ -1347,10 +1287,6 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 				isExistTrackFile = false;
 		}
 		
-		if (!settings.getBoolean("copy_map_to_sdcard_success", false) || !mapFile.exists()) {
-			showDialog(R.id.map_dialog_wait);
-			MainMapActivity.this.copyMapFileToSDCard();
-		}
 		if (!settings.getBoolean("copy_track_to_sdcard_success", false) || !isExistTrackFile) {
 			showDialog(R.id.track_dialog_wait);
 			MainMapActivity.this.copyTrackFileToSDCard();
