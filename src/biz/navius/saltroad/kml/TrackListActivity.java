@@ -360,7 +360,7 @@ public class TrackListActivity extends ListActivity {
 				xml.setAttr("xsi:schemaLocation", "http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd");
 				xml.setAttr("xmlns", "http://www.topografix.com/GPX/1/0");
 				xml.setAttr("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-				xml.setAttr("creator", "Salt Road - http://us.navius.biz/products/smph_apl2_us.html");
+				xml.setAttr("creator", "Salt Road - https://market.android.com/details?id=biz.navius.saltroad");
 				xml.setAttr("version", "1.0");
 
 				xml.createChild("name").setText(track.Name);

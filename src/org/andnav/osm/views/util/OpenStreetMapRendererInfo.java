@@ -37,7 +37,7 @@ public class OpenStreetMapRendererInfo {
 
 	public String ID, BASEURL, NAME, IMAGE_FILENAMEENDING, GOOGLE_LANG_CODE, CACHE;
 	public int ZOOM_MINLEVEL, ZOOM_MAXLEVEL,
-	URL_BUILDER_TYPE, // 0 - OSM, 1 - Google, 2 - Yandex, 3 - Yandex.Traffic, 4 - Google.Sattelite, 5 - openspace, 6 - microsoft, 8 - VFR Chart
+	URL_BUILDER_TYPE, // 0 - OSM, 1 - Google, 2 - Yandex, 3 - Yandex.Traffic, 4 - Google.Satellite, 5 - openspace, 6 - microsoft, 8 - VFR Chart
 	TILE_SOURCE_TYPE, // 0 - internet, 3 - MapNav file, 4 - TAR, 5 - sqlitedb
 	YANDEX_TRAFFIC_ON,
 	PROJECTION; // 1-�������� �� �������, 2- �� ���������, 3- OSGB 36 British national grid reference system
@@ -307,7 +307,7 @@ public class OpenStreetMapRendererInfo {
 					.append(18-zoomLevel-1)
 					.toString();
 					// http://www.runwayfinder.com/media/charts/?x=0&y=0&z=17
-				case 4: // Google.Sattelite
+				case 4: // Google.Satellite
 					return new StringBuilder().append(this.BASEURL)
 					//http://khm0.google.com/maptilecompress?t=2&q=80&hl=ru
 					.append("&q=80&hl=ru&x=")

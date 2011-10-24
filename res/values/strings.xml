@@ -15,9 +15,9 @@
     <string name="pref_drivingdirectionup_summary">Turn the map in driving direction</string>
     <string name="pref_drivingdirectionup">Driving direction up</string>
     <string name="pref_zoomminlevel_summary">Set this zoom level at long press on minus button</string>
-    <string name="pref_zoomminlevel">Favourite min zoom</string>
+    <string name="pref_zoomminlevel">Favorite min zoom</string>
     <string name="pref_zoommaxlevel_summary">Set this zoom level at long press on plus button</string>
-    <string name="pref_zoommaxlevel">Favourite max zoom</string>
+    <string name="pref_zoommaxlevel">Favorite max zoom</string>
     <string name="app_user_id"/>
     <string name="app_user_label">NAVIUS Corp.</string>
     <string name="prefcat_main_misc">Misc</string>

@@ -4,7 +4,7 @@
 		1 - Google,
 		2 - Yandex,
 		3 - Yandex.Traffic,
-		4 - Google.Sattelite,
+		4 - Google.Satellite,
 		5 - openspace,
 		6 - microsoft,
 		7 - Docelu.pl
@@ -24,7 +24,7 @@
 <root>
 	<map id="yandexmap" name="Yandex.Map" descr="http://maps.yandex.ru" baseurl="http://vec.maps.yandex.net/tiles?l=map&amp;v=2.20.0&amp;x=" IMAGE_FILENAMEENDING="" ZOOM_MINLEVEL="0" ZOOM_MAXLEVEL="17" MAPTILE_SIZEPX="256" URL_BUILDER_TYPE="2" TILE_SOURCE_TYPE="0" PROJECTION="2" YANDEX_TRAFFIC_ON="0"></map>
 	<map id="yandexmaptraffic" cache="yandexmap" name="Yandex.Traffic" descr="http://maps.yandex.ru" baseurl="http://vec.maps.yandex.net/tiles?l=map&amp;v=2.20.0&amp;x=" IMAGE_FILENAMEENDING="" ZOOM_MINLEVEL="0" ZOOM_MAXLEVEL="17" MAPTILE_SIZEPX="256" URL_BUILDER_TYPE="2" TILE_SOURCE_TYPE="0" PROJECTION="2" YANDEX_TRAFFIC_ON="1"></map>
-	<map id="yandexsat" name="Yandex.Sattelite" descr="http://maps.yandex.ru" baseurl="http://sat01.maps.yandex.net/tiles?l=sat&amp;v=1.26.0&amp;x=" IMAGE_FILENAMEENDING="" ZOOM_MINLEVEL="0" ZOOM_MAXLEVEL="19" MAPTILE_SIZEPX="256" URL_BUILDER_TYPE="2" TILE_SOURCE_TYPE="0" PROJECTION="2" YANDEX_TRAFFIC_ON="0"></map>
+	<map id="yandexsat" name="Yandex.Satellite" descr="http://maps.yandex.ru" baseurl="http://sat01.maps.yandex.net/tiles?l=sat&amp;v=1.26.0&amp;x=" IMAGE_FILENAMEENDING="" ZOOM_MINLEVEL="0" ZOOM_MAXLEVEL="19" MAPTILE_SIZEPX="256" URL_BUILDER_TYPE="2" TILE_SOURCE_TYPE="0" PROJECTION="2" YANDEX_TRAFFIC_ON="0"></map>
 	<map layer="true" id="yandextraffic" name="Yandex.Traffic" descr="" baseurl="http://jgo.maps.yandex.net/tiles?l=trf" IMAGE_FILENAMEENDING="" ZOOM_MINLEVEL="0" ZOOM_MAXLEVEL="17" MAPTILE_SIZEPX="256" URL_BUILDER_TYPE="3" TILE_SOURCE_TYPE="0" PROJECTION="2" YANDEX_TRAFFIC_ON="0"></map>
 
 	<map id="googlemap" name="Google.Map" descr="" baseurl="http://mt.google.com/vt/lyrs=m@158000000&amp;" IMAGE_FILENAMEENDING=".png" ZOOM_MINLEVEL="0" ZOOM_MAXLEVEL="19" MAPTILE_SIZEPX="256" URL_BUILDER_TYPE="1" TILE_SOURCE_TYPE="0" PROJECTION="1" YANDEX_TRAFFIC_ON="0"></map>
