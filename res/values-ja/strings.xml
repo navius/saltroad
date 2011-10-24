@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+	<string name="blank"> </string>
+    <string name="pref_zoomctrl_summary">画面のズームボタンの位置</string>
+    <string name="pref_zoomctrl">ズームボタン</string>
+	<string name="pref_screen_orientation">画面の向き</string>
+	<string name="pref_screen_orientation_summary">画面の向きを選択して下さい</string>
+    <string name="pref_googlelanguagecode_summary">Googleマップのローカライズ</string>
+    <string name="pref_googlelanguagecode">Googleマップの言語コード</string>
+    <string name="pref_hidepoi_summary">POIアイコンをマップに表示しない</string>
+    <string name="pref_hidepoi">POI非表示</string>
+    <string name="prefcat_main_poi">POI</string>
+    <string name="pref_northdirectionup_summary">マップを北向きに向ける</string>
+    <string name="pref_northdirectionup">北向き</string>
+    <string name="pref_drivingdirectionup_summary">マップを進行方向に向ける</string>
+    <string name="pref_drivingdirectionup">進行方向</string>
+    <string name="pref_zoomminlevel_summary">マイナスボタン長押しでのズームレベル設定</string>
+    <string name="pref_zoomminlevel">最小ズーム</string>
+    <string name="pref_zoommaxlevel_summary">プラスボタン長押しでのズームレベル設定</string>
+    <string name="pref_zoommaxlevel">最大ズーム</string>
+    <string name="app_user_id"/>
+    <string name="app_user_label">NAVIUS Corp.</string>
+    <string name="prefcat_main_misc">その他</string>
+    <string name="pref_accuracy_summary">Googleマップのような青い円の表示</string>
+    <string name="pref_accuracy">精度表示</string>
+    <string name="pref_keepscreenon_summaryoff">動作していない時の画面の自動OFF</string>
+    <string name="pref_keepscreenon_summary">マップを表示している間、画面はOFFになりません</string>
+    <string name="pref_keepscreenon">画面ONの維持</string>
+    <string name="pref_showtitle_summary">マップの名前その他のウィンドウタイトルの非表示</string>
+    <string name="pref_showtitle">ウィンドウタイトルの表示</string>
+    <string name="pref_showstatusbar_summary">マップモードのステイタスバーの非表示</string>
+    <string name="pref_showstatusbar">ステイタスバーの表示</string>
+    <string name="pref_turnoffautoreindex">自動再インデックスのOFF</string>
+    <string name="pref_turnoffautoreindex_summary">マップファイルのサイズおよび更新日時のチェックのOFF</string>
+    <string name="pref_gpsfastupdate">GPSデータ更新速度UP</string>
+    <string name="pref_gpsfastupdate_summary">少ない更新は理論的にはバッテリーの節約になります</string>
+    <string name="pref_usermap_enabled">利用可能なマップ</string>
+    <string name="pref_usermap_enabled_summary">マップリストへのマップの追加</string>
+    <string name="pref_usermap_name">名前</string>
+    <string name="pref_usermap_baseurl">Base URL</string>
+    <string name="pref_usermap_projection">投影図法</string>
+    <string name="pref_usermap_traffic">Yandex.交通情報</string>
+    <string name="pref_usermap_traffic_summary">Yandexによる交通情報の表示</string>
+    <string name="prefcat_main_look">Look &amp; Feel</string>
+    <string name="prefcat_main_maps">マップ</string>
+    <string name="prefcat_main_indexing">インデックス</string>
+    <string name="prefcat_main_predefinedmaps"/>
+    <string name="pref_main_maps">事前に定義されたマップ</string>
+    <string name="pref_main_maps_summary">インターネット接続は必須です</string>
+    <string name="pref_main_usermaps">ユーザが定義したマップ</string>
+    <string name="pref_main_usermaps_summary">/sdcard/saltroad/mapsのマップ</string>
+    <string name="pref_main_usermaps_download">マップダウンロード</string>
+    <string name="pref_main_usermaps_download_summary">/sdcard/saltroad/mapsにマップをダウンロード</string>
+    <string name="btn_download_title">ダウンロード</string>
+    <string name="pref_download_min_map_title">最小サイズのマップ</string>
+    <string name="pref_download_min_map_summary">サイズ: 20MB ダウンロード時間: 約2分</string>
+    <string name="pref_download_medium_map_title">中サイズのマップ</string>
+    <string name="pref_download_medium_map_summary">サイズ: 70MB ダウンロード時間: 約5分</string>
+    <string name="pref_download_max_map_title">最大サイズのマップ</string>
+    <string name="pref_download_max_map_summary">サイズ: 200MB ダウンロード時間: 約14分</string>
+    <string name="btn_clear_cache_title">キャッシュクリアー</string>
+    <string name="pref_internalcache_title">内部的なキャッシュ</string>
+    <string name="pref_internalcache_summary">使用済み一時保存マップタイル Size: %dKB/4MB</string>
+    <string name="pref_index_title">インデックスデータベース</string>
+    <string name="pref_index_summary">OFFLINEマップのタイルインデックス Size: %dKB</string>
+    <string name="pref_showscalebar_summary">左下隅のスケールバーの表示</string>
+    <string name="pref_showscalebar">スケールバー表示</string>
+    <string name="pref_units_summary">距離、スピードの単位</string>
+    <string name="pref_units">単位</string>
+    <string name="hello">Hello World, OpenStreetMapViewer</string>
+    <string name="app_name">塩の道</string>
+    <string name="app_name_itemizedoverlay">OSMViewer ItemizedOverlay</string>
+    <string name="unknown">Unknown</string>
+    <string name="menu_settings">設定</string>
+    <string name="menu_exit">Exit</string>
+    <string name="menu_mylocation">現在地</string>
+    <string name="menu_mapselector">マップ</string>
+    <string name="menu_compass">コンパス</string>
+    <string name="menu_about">About</string>
+    <string name="menu_search">検索</string>
+    <string name="menu_gpsstatus">GPS ステータス</string>
+    <string name="menu_add">追加</string>
+    <string name="menu_addpoi">POI追加</string>
+    <string name="menu_poilist">POI</string>
+    <string name="menu_categorylist">カテゴリー</string>
+    <string name="menu_import">インポート</string>
+    <string name="menu_deleteall">全削除</string>
+    <string name="mnm">.mnm</string>
+    <string name="tar">.tar</string>
+    <string name="sqlitedb">.sqlitedb</string>
+    <string name="no_traffic">このズームでは、交通情報は利用できません</string>
+    <string name="auto_follow_enabled">自動追尾 利用可能</string>
+    <string name="auto_follow_disabled">自動追尾 利用不可</string>
+    <string name="message_geodata_notavailable">SDカードのデータが利用できません。操作が実行できません。</string>
+    <string name="no_inet_conn">インターネット未接続...</string>
+    <string name="no_items">検索はヒットしませんでした</string>
+    <string name="about_dialog_text">
+©2011 NAVIUS Corp.\n
+All rights reserved\n
+\n
+質問その他の問い合わせ先メールアドレス: cs@navius.biz\n
+\n
+	</string>
+    <string name="whats_new_dialog_text">
+v.1.0\n
++ First version\n
+\n
+	</string>
+    <string name="about_dialog_whats_new">What s new</string>
+    <string name="about_dialog_close">Close</string>
+    <string name="search_label">住所:</string>
+    <string name="search_hint">例. 白馬, 長野</string>
+    <string name="message_gpsdisabled">GPSが利用できません。現在地の検索のため、ワイヤレスネットワークの使用を検討して下さい...</string>
+    <string name="message_locationunavailable">GPSとネットワークが検知できません。現在地の検索が一時的に利用できません...</string>
+    <string name="message_lastknownlocation">GPSとネットワークが検知できません。最後に表示した場所を表示しています...</string>
+    <string name="message_corruptindex">インデックスデータが壊れました。設定のインデックスデータのクリアーを推奨します。</string>
+    <string name="message_updateminmax">マップファイルの最小最大ズームデータの更新中...</string>
+    <string name="message_saved">項目は更新されました</string>
+    <string name="menu_done">Done</string>
+    <string name="menu_doNotSave">戻る</string>
+    <string name="menu_edit">編集</string>
+    <string name="menu_delete">削除</string>
+    <string name="menu_hide">非表示</string>
+    <string name="menu_show">表示</string>
+    <string name="PoiTitle">タイトル</string>
+    <string name="PoiIcon">アイコン</string>
+    <string name="PoiCategoryTitle">カテゴリー</string>
+    <string name="PoiLat">緯度</string>
+    <string name="PoiLon">経度</string>
+    <string name="PoiDescr">説明</string>
+    <string name="hidden">非表示</string>
+    <string name="hiddencategory">このカテゴリーのPOIを非表示にします</string>
+    <string name="ya_dialog_title"/>
+    <string name="ya_dialog_message"/>
+    <string name="ya_dialog_button_caption"/>
+    <string name="menu_goto">Go to POI</string>
+
+
+    <string name="FileName">KML、GPXファイルからのインポート</string>
+    <string name="ToCategory">カテゴリーへ</string>
+    <string name="SelectFile">ファイル選択</string>
+    <string name="Import">インポート</string>
+    <string name="this_folder_is_empty">このフォルダーは空です。</string>
+
+    <string name="MinZoom">ズーム(0..23)以内のPOI表示</string>
+    <string name="warning_delete_all_poi">すべてのPOIを削除しますか?</string>
+    <string name="menu_tracks">トラック</string>
+
+    <string name="remote_service_started">塩の道 トラック 記録</string>
+    <string name="menu_goto_track">Go to トラック</string>
+
+    <string name="btn_start">トラック記録スタート</string>
+    <string name="btn_stop">ストップ</string>
+    <string name="trackwriter_nothing">記録データなし</string>
+    <string name="trackwriter_saved">トラック保存完了</string>
+    <string name="pref_trackwriter_mindistance_summary">あなたの位置の二つの記録の間の最小距離</string>
+    <string name="pref_trackwriter_mindistance">ポイント間の最小距離</string>
+    <string name="pref_trackwriter_mintime_summary">あなたの位置の二つの記録の間の最小時間間隔</string>
+    <string name="pref_trackwriter_mintime">ポイント間の最小時間</string>
+    <string name="prefcat_main_trackwriter">Track writer</string>
+	<string name="menu_toradar">レーダーへ</string>
+	<string name="message_noradar">レーダーアプリケーションが見つかりません。レーダーアプリケーションをインストールして下さい! マーケットからGPS StatusあるいはRadarをインストールできます。</string>
+	<string name="message_nogpsstatus">GPS Statusが見つかりません。GPS Statusをインストールして下さい!</string>
+	<string name="menu_exporttogpx">GPXファイルへエクスポート</string>
+	<string name="menu_exporttokml">KMLファイルへエクスポート</string>
+	<string name="message_trackexported">The track is exported to </string>
+	<string name="message_cantstarttrackwriter">Can\'t start TrackWriter because can\'t write track to </string>
+	<string name="message_error">エラー: </string>
+	<string name="error_title">エラーレポート</string>
+	<string name="error_text">最後の起動の後、ソフトウェアの問題で塩の道は強制終了しました。エラーレポートをプログラムの制作者に送って下さい。レポート生成を押して下さい。レポートが送られる前にメッセージを読む事ができます。</string>
+	<string name="error_send">レポート生成</string>
+	<string name="pref_onlinecache">ONLINEマップキャッシュ</string>
+	<string name="pref_onlinecache_summary">ONLINEマップタイルをSDカードに保存</string>
+	<string name="message_wait">しばらくお待ち下さい...</string>
+	<string name="pref_dir">ディレクトリ</string>
+	<string name="pref_dir_main">塩の道メインディレクトリ</string>
+	<string name="pref_dir_maps">ユーザマップディレクトリ</string>
+	<string name="pref_dir_import">インポートファイルディレクトリ</string>
+	<string name="pref_dir_export">エクスポートファイルディレクトリ</string>
+	<string name="pref_dir_summary">塩の道があなたのファイルを保存する場所</string>
+	<string name="pref_crosshair">中心の十字線</string>
+	<string name="pref_crosshair_summary">マップの中心の小さい十字線を表示</string>
+
+	<string name="points_cnt">POINTS</string>
+	<string name="duration">DURATION</string>
+	<string name="distance">DISTANCE</string>
+	<string name="avg_speed">AVG SPEED</string>
+	<string name="avg_pace">AVG PACE</string>
+	<string name="max_speed">MAX SPEED</string>
+	<string name="moving_time">MOVING TIME</string>
+	<string name="avg_moving_speed">AVG MOVING SPEED</string>
+	<string name="min_elevation">MIN ELEVATION</string>
+	<string name="max_elevation">MAX ELEVATION</string>
+	<string name="menu_stat">統計</string>
+	<string name="km">km</string>
+	<string name="kmh">km/h</string>
+	<string name="minkm">min/km</string>
+	<string name="m">m</string>
+	<string name="ml">ml</string>
+	<string name="activity">Activity</string>
+
+	<string name="message_downloading_map_file">マップファイルをダウンロード中..</string>
+	<string name="warning_file_overwrite">このファイルは既に存在しています。上書きしますか?</string>
+	<string name="error_failed_to_download_map">マップファイルのダウンロードが失敗しました。</string>
+
+</resources>

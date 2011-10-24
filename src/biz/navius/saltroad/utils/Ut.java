@@ -278,7 +278,7 @@ public class Ut implements OpenStreetMapConstants, OpenStreetMapViewConstants {
 	}
 
 	public static Intent SendMail(String subject, String text) {
-		final String[] email = {"cmroid@navius.biz"};
+		final String[] email = {"cs@navius.biz"};
 		Intent sendIntent = new Intent(Intent.ACTION_SEND);
 		sendIntent.putExtra(Intent.EXTRA_TEXT, text);
 		sendIntent.putExtra(Intent.EXTRA_SUBJECT, subject);

@@ -52,6 +52,8 @@
     <string name="pref_main_usermaps_download">Download maps</string>
     <string name="pref_main_usermaps_download_summary">Download maps to /sdcard/saltroad/maps</string>
     <string name="btn_download_title">Download</string>
+    <string name="pref_download_min_map_title">Minimum map</string>
+    <string name="pref_download_min_map_summary">Size: 20MB. Download time: about 2 minute</string>
     <string name="pref_download_medium_map_title">Medium map</string>
     <string name="pref_download_medium_map_summary">Size: 70MB. Download time: about 5 minute</string>
     <string name="pref_download_max_map_title">Maximum map</string>
@@ -96,15 +98,11 @@
 ©2011 NAVIUS Corp.\n
 All rights reserved\n
 \n
-Questions, sentences mail to cmroid@navius.biz\n
+Questions, sentences mail to cs@navius.biz\n
 \n
-How to and FAQ you can find on http://us.navius.biz/products/smph_apl2_us.html/\n
 	</string>
     <string name="whats_new_dialog_text">
-v.0.9.0\n
-+ Added offline map download\n
-\n
-v.0.8.9\n
+v.1.0\n
 + First version\n
 \n
 	</string>
