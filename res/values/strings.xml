@@ -199,7 +199,7 @@ v.1.0\n
 	<string name="ml">ml</string>
 	<string name="activity">Activity</string>
 
-	<string name="message_downloading_map_file">Downloading a map file..</string>
+	<string name="message_downloading_map_file">Downloading a map file...</string>
 	<string name="warning_file_overwrite">This file already exists. Overwrite?</string>
 	<string name="error_failed_to_download_map">Failed to download a map file.</string>
 

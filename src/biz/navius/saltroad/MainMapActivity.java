@@ -1195,12 +1195,12 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
     		editor1.putBoolean("copy_track_to_sdcard_success", true);
     		editor1.commit();
     		setDefaultLocation();
-			mOsmv.invalidate();
     	} else {
     		editor1.putBoolean("copy_track_to_sdcard_success", false);
     		editor1.commit();
     	}
 		dismissDialog(R.id.track_dialog_wait);
+		mOsmv.invalidate();
     }
 
     public void copyDefaultPoiDBFileToSDCardSuccessPreference(Boolean success) {

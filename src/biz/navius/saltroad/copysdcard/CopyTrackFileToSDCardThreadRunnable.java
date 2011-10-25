@@ -61,12 +61,14 @@ public class CopyTrackFileToSDCardThreadRunnable implements Runnable
 	        String filename = basename + ".kml";
 			String filePath = folder.getAbsolutePath() + File.separator + filename;
 			if (!importTrack(filePath)) {
+				mPoiManager.FreeDatabases();
 				m.setData(Ut.getBooleanAsABundle(false));
 				this.mainThreadHandler.sendMessage(m);
 				return;
 			}
 		}
 	    
+		mPoiManager.FreeDatabases();
 		m.setData(Ut.getBooleanAsABundle(true));
 		this.mainThreadHandler.sendMessage(m);
 		return;

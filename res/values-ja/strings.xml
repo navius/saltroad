@@ -12,8 +12,8 @@
     <string name="prefcat_main_poi">POI</string>
     <string name="pref_northdirectionup_summary">マップを北向きに向ける</string>
     <string name="pref_northdirectionup">北向き</string>
-    <string name="pref_drivingdirectionup_summary">マップを進行方向に向ける</string>
-    <string name="pref_drivingdirectionup">進行方向</string>
+    <string name="pref_drivingdirectionup_summary">移動中にマップを北向きに向ける</string>
+    <string name="pref_drivingdirectionup">移動中の方向</string>
     <string name="pref_zoomminlevel_summary">マイナスボタン長押しでのズームレベル設定</string>
     <string name="pref_zoomminlevel">最小ズーム</string>
     <string name="pref_zoommaxlevel_summary">プラスボタン長押しでのズームレベル設定</string>
@@ -27,10 +27,10 @@
     <string name="pref_keepscreenon_summary">マップを表示している間、画面はOFFになりません</string>
     <string name="pref_keepscreenon">画面ONの維持</string>
     <string name="pref_showtitle_summary">マップの名前その他のウィンドウタイトルの非表示</string>
-    <string name="pref_showtitle">ウィンドウタイトルの表示</string>
-    <string name="pref_showstatusbar_summary">マップモードのステイタスバーの非表示</string>
-    <string name="pref_showstatusbar">ステイタスバーの表示</string>
-    <string name="pref_turnoffautoreindex">自動再インデックスのOFF</string>
+    <string name="pref_showtitle">ウィンドウタイトル表示</string>
+    <string name="pref_showstatusbar_summary">マップモードのステータスバーの非表示</string>
+    <string name="pref_showstatusbar">ステータスバー表示</string>
+    <string name="pref_turnoffautoreindex">自動再インデックスOFF</string>
     <string name="pref_turnoffautoreindex_summary">マップファイルのサイズおよび更新日時のチェックのOFF</string>
     <string name="pref_gpsfastupdate">GPSデータ更新速度UP</string>
     <string name="pref_gpsfastupdate_summary">少ない更新は理論的にはバッテリーの節約になります</string>
@@ -52,14 +52,14 @@
     <string name="pref_main_usermaps_download">マップダウンロード</string>
     <string name="pref_main_usermaps_download_summary">/sdcard/saltroad/mapsにマップをダウンロード</string>
     <string name="btn_download_title">ダウンロード</string>
-    <string name="pref_download_min_map_title">最小サイズのマップ</string>
+    <string name="pref_download_min_map_title">最小サイズマップ</string>
     <string name="pref_download_min_map_summary">サイズ: 20MB ダウンロード時間: 約2分</string>
-    <string name="pref_download_medium_map_title">中サイズのマップ</string>
+    <string name="pref_download_medium_map_title">中サイズマップ</string>
     <string name="pref_download_medium_map_summary">サイズ: 70MB ダウンロード時間: 約5分</string>
-    <string name="pref_download_max_map_title">最大サイズのマップ</string>
+    <string name="pref_download_max_map_title">最大サイズマップ</string>
     <string name="pref_download_max_map_summary">サイズ: 200MB ダウンロード時間: 約14分</string>
-    <string name="btn_clear_cache_title">キャッシュクリアー</string>
-    <string name="pref_internalcache_title">内部的なキャッシュ</string>
+    <string name="btn_clear_cache_title">クリアー</string>
+    <string name="pref_internalcache_title">内部キャッシュ</string>
     <string name="pref_internalcache_summary">使用済み一時保存マップタイル Size: %dKB/4MB</string>
     <string name="pref_index_title">インデックスデータベース</string>
     <string name="pref_index_summary">OFFLINEマップのタイルインデックス Size: %dKB</string>
@@ -142,15 +142,15 @@ v.1.0\n
     <string name="Import">インポート</string>
     <string name="this_folder_is_empty">このフォルダーは空です。</string>
 
-    <string name="MinZoom">ズーム(0..23)以内のPOI表示</string>
+    <string name="MinZoom">ズーム(0..23)以上でPOIが表示される</string>
     <string name="warning_delete_all_poi">すべてのPOIを削除しますか?</string>
     <string name="menu_tracks">トラック</string>
 
     <string name="remote_service_started">塩の道 トラック 記録</string>
     <string name="menu_goto_track">Go to トラック</string>
 
-    <string name="btn_start">トラック記録スタート</string>
-    <string name="btn_stop">ストップ</string>
+    <string name="btn_start">トラック記録開始</string>
+    <string name="btn_stop">停止</string>
     <string name="trackwriter_nothing">記録データなし</string>
     <string name="trackwriter_saved">トラック保存完了</string>
     <string name="pref_trackwriter_mindistance_summary">あなたの位置の二つの記録の間の最小距離</string>
@@ -199,7 +199,7 @@ v.1.0\n
 	<string name="ml">ml</string>
 	<string name="activity">Activity</string>
 
-	<string name="message_downloading_map_file">マップファイルをダウンロード中..</string>
+	<string name="message_downloading_map_file">マップファイルをダウンロード中...</string>
 	<string name="warning_file_overwrite">このファイルは既に存在しています。上書きしますか?</string>
 	<string name="error_failed_to_download_map">マップファイルのダウンロードが失敗しました。</string>
 
