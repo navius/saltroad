@@ -22,6 +22,7 @@ import biz.navius.saltroad.MainMapActivity;
 import biz.navius.saltroad.R;
 import biz.navius.saltroad.constants.MapConstants;
 import biz.navius.saltroad.kml.PoiManager;
+import biz.navius.saltroad.kml.PoiPoint;
 import biz.navius.saltroad.kml.Track;
 import biz.navius.saltroad.utils.Ut;
 
@@ -126,10 +127,12 @@ public class DefaultTrackOverlay extends OpenStreetMapViewOverlay {
 
 		pj.toPixels(mBaseLocation, screenCoords);
 
-		//final long startMs = System.currentTimeMillis();
-
-		
-		for (Path path: mPaths) {
+		/*
+		 * Draw in backward cycle, so the items with the least index are on
+		 * the front.
+		 */
+		for (int i = this.mPaths.size() - 1; i >= 0; i--) {
+			Path path = this.mPaths.get(i);
 			if(screenCoords.x != mBaseCoords.x && screenCoords.y != mBaseCoords.y){
 				c.save();
 				c.translate(screenCoords.x - mBaseCoords.x, screenCoords.y - mBaseCoords.y);

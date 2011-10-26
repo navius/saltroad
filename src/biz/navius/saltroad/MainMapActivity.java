@@ -581,6 +581,7 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 			onSearchRequested();
 			return true;
 		case (R.id.settings):
+			setDefaultMapTrack();
 			startActivityForResult(new Intent(this, MainPreferences.class), R.id.settings_activity_closed);
 			return true;
 		case (R.id.about):
@@ -918,8 +919,6 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 	protected void onResume() {
 		super.onResume();
 		
-		setDefaultMapTrack();
-		
     	SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 
     	if (pref.getBoolean("pref_keepscreenon", true)) {
@@ -1021,8 +1020,10 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 			showDialog(R.id.error);
 		}
 
-		if(!settings.getString("app_version", "").equalsIgnoreCase(Ut.getAppVersion(this)))
+		if(!settings.getString("app_version", "").equalsIgnoreCase(Ut.getAppVersion(this))) {
+			setDefaultMapTrack();
 			showDialog(R.id.whatsnew);
+		}
 
 		if (settings.getBoolean("add_yandex_bookmark", true))
 			if (getResources().getConfiguration().locale.toString()
@@ -1073,7 +1074,7 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 			startActivity(new Intent(this, this.getClass()));
 			break;
 		}
-
+		
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
@@ -1200,7 +1201,10 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
     		editor1.commit();
     	}
 		dismissDialog(R.id.track_dialog_wait);
-		mOsmv.invalidate();
+		
+		// Show default track
+		finish();
+		startActivity(new Intent(this, this.getClass()));
     }
 
     public void copyDefaultPoiDBFileToSDCardSuccessPreference(Boolean success) {
