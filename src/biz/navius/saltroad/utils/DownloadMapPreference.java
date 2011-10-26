@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.PowerManager;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
@@ -33,6 +34,7 @@ public class DownloadMapPreference extends Preference {
     private String mMapName = "";
     private String mDownloadMapUrlString = "";
     private ProgressDialog mProgressDialog;
+	private PowerManager.WakeLock myWakeLock = null;
 
     public DownloadMapPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -80,7 +82,8 @@ public class DownloadMapPreference extends Preference {
 			    	ad.show();
 			    	return;
 				}
-			    new DownloadFileAsync().execute(mDownloadMapUrlString, mMapFilePath);
+				acquireWakeLock();
+				new DownloadFileAsync().execute(mDownloadMapUrlString, mMapFilePath);
 			}
 		});
 	}
@@ -92,9 +95,16 @@ public class DownloadMapPreference extends Preference {
 		{
 			if (buttonId == DialogInterface.BUTTON_POSITIVE)
 			{
+				acquireWakeLock();
 			    new DownloadFileAsync().execute(mDownloadMapUrlString, mMapFilePath);
 			}
 		}
+	}
+
+	private void acquireWakeLock() {
+		myWakeLock = ((PowerManager) mCtx.getSystemService(Context.POWER_SERVICE)).newWakeLock(
+				PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "SaltRoad");
+		myWakeLock.acquire();
 	}
 
     class DownloadFileAsync extends AsyncTask<String, Integer, String> {
@@ -158,6 +168,9 @@ public class DownloadMapPreference extends Preference {
 
         @Override
         protected void onPostExecute(String result) {
+    		if (myWakeLock != null) {
+    			myWakeLock.release();
+    		}
         	mProgressDialog.dismiss();
         	
         	if (result == null) {
