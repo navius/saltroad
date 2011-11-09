@@ -90,6 +90,18 @@ public class Ut implements OpenStreetMapConstants, OpenStreetMapViewConstants {
 		return res;
 	}
 
+	public static int getAppVersionCode(Context ctx) {
+		PackageInfo pi;
+		int res = 0;
+		try {
+			pi = ctx.getPackageManager().getPackageInfo("biz.navius.saltroad", 0);
+			res = pi.versionCode;
+		} catch (NameNotFoundException e) {
+		}
+
+		return res;
+	}
+
 	public static void dd(String str){
 		Log.d(DEBUGTAG, str);
 	}

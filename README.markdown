@@ -9,14 +9,15 @@ Overview
 --------
 
 This is the Android application for
-[*Otari Village: Salt Road*](http://www.valley.ne.jp/%7Eotarivil/sio/)
+[*Otari Village in Japan: Salt Road*](http://www.valley.ne.jp/%7Eotarivil/sio/)
 by [Navius](http://us.navius.biz/).
 
-This is the navigation tool of Salt Road.
+This is the Salt Road trekking cource navigation tool.
 
-This is based on [RMaps](http://robertdeveloper.blogspot.com/2009/08/rmaps.html).
+This is based on Android application [RMaps](http://robertdeveloper.blogspot.com/2009/08/rmaps.html)(By Robert.Developer).
 
-Functionalities added to RMaps:
-- OFFLINE Maps download
-- Default tracks(Salt Road Track/default_track(01-04).kml in "res/raw")
-- Default POI(Salt Road Sights POI/defaultpoi.db in "res/raw")
+Added functionalities for RMaps:
+
++  OFFLINE Maps download
++  Default tracks(Salt Road track/default_track(01-04).kml in "res/raw")
++  Default POI(Salt Road sights POI/defaultpoi.db in "res/raw")

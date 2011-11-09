@@ -481,6 +481,24 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		editor.commit();
 	}
 
+	private void CheckNeedDefaultDataUpdate() {
+		SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
+		final int versionDataUpdate = settings.getInt("versionDefaultDataUpdate", 0);
+		Ut.dd("versionDefaultDataUpdate="+versionDataUpdate);
+
+		if(versionDataUpdate < 1){
+			Ut.dd("Upgrade app default data to v.1");
+			SharedPreferences.Editor editor1 = settings.edit();
+	    	editor1.putBoolean("copy_track_to_sdcard_success", false);
+	    	editor1.commit();
+		}
+
+		SharedPreferences uiState = getPreferences(0);
+		SharedPreferences.Editor editor = uiState.edit();
+		editor.putInt("versionDefaultDataUpdate", 1);
+		editor.commit();
+	}
+	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch(item.getItemId()){
@@ -1021,6 +1039,7 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		}
 
 		if(!settings.getString("app_version", "").equalsIgnoreCase(Ut.getAppVersion(this))) {
+	    	CheckNeedDefaultDataUpdate();
 			setDefaultMapTrack();
 			showDialog(R.id.whatsnew);
 		}

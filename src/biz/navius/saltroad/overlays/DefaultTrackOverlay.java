@@ -22,7 +22,6 @@ import biz.navius.saltroad.MainMapActivity;
 import biz.navius.saltroad.R;
 import biz.navius.saltroad.constants.MapConstants;
 import biz.navius.saltroad.kml.PoiManager;
-import biz.navius.saltroad.kml.PoiPoint;
 import biz.navius.saltroad.kml.Track;
 import biz.navius.saltroad.utils.Ut;
 
