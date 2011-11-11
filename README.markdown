@@ -12,11 +12,13 @@ This is the Android application for
 [*Otari Village in Japan: Salt Road*](http://www.valley.ne.jp/%7Eotarivil/sio/)
 by [Navius](http://us.navius.biz/).
 
-This is the Salt Road trekking cource navigation tool.
+It is the trail map of Salt Road, Northern Alps Japan.
 
-This is based on Android application [RMaps](http://robertdeveloper.blogspot.com/2009/08/rmaps.html)(By Robert.Developer).
+It is available on [Android Market](https://market.android.com/details?id=biz.navius.saltroad).
 
-Added functionalities for RMaps:
+It is based on Android application [RMaps](http://robertdeveloper.blogspot.com/2009/08/rmaps.html)(By Robert.Developer).
+
+Functionalities added to RMaps(version 0.8.9/r367):
 
 +  OFFLINE Maps download
 +  Default tracks(Salt Road track/default_track(01-04).kml in "res/raw")
