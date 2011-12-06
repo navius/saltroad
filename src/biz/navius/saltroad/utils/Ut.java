@@ -363,7 +363,7 @@ public class Ut implements OpenStreetMapConstants, OpenStreetMapViewConstants {
 		return b.getBoolean("message");
 	}
 
-	public boolean cleanFolder(String folderPath)                          //Testing purpose only
+	public static boolean cleanFolder(String folderPath)
 	{
         try {
     	    File folder = new File(folderPath);
@@ -383,4 +383,5 @@ public class Ut implements OpenStreetMapConstants, OpenStreetMapViewConstants {
         }
         return true;
 	}
+
 }

@@ -2,7 +2,7 @@
 <manifest android:sharedUserId="@string/app_user_id"
     android:sharedUserLabel="@string/app_user_label"
     xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto"
-    package="biz.navius.saltroad" android:versionCode="110" android:versionName="1.0">
+    package="biz.navius.saltroad" android:versionCode="111" android:versionName="1.1">
     <uses-sdk android:minSdkVersion="4"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>

@@ -102,6 +102,9 @@ All rights reserved\n
 \n
 	</string>
     <string name="whats_new_dialog_text">
+v.1.1\n
++ POIの画像ファイルをダウンロードすることにより、アプリケーションのサイズを圧縮\n
+\n
 v.1.0\n
 + First version\n
 \n
@@ -203,4 +206,10 @@ v.1.0\n
 	<string name="warning_file_overwrite">このファイルは既に存在しています。上書きしますか?</string>
 	<string name="error_failed_to_download_map">マップファイルのダウンロードが失敗しました。</string>
 
+	<string name="message_downloading_default_poi_image_file">POI画像ファイルをダウンロード中...</string>
+	<string name="error_failed_to_download_default_poi_image">POI画像ファイルのダウンロードが失敗しました。</string>
+
+	<string name="message_decompressing_default_poi_image_file">POI画像ファイルを解凍中...</string>
+	<string name="error_failed_to_decompress_default_poi_image">POI画像ファイルの解凍が失敗しました。</string>
+	    
 </resources>

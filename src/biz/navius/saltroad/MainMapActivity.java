@@ -606,6 +606,7 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 			return true;
 		case (R.id.settings):
 			setDefaultMapTrack();
+			setDefaultPoiImageFile();
 			startActivityForResult(new Intent(this, MainPreferences.class), R.id.settings_activity_closed);
 			return true;
 		case (R.id.about):
@@ -1262,6 +1263,10 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putBoolean("decompress_default_poi_image_file_success", success);
 		editor.commit();
+		
+		File zipFileFolder = Ut.getRMapsTmpDir(this);
+		Ut.cleanFolder(zipFileFolder.getAbsolutePath());
+
 		dismissDialog(R.id.decompress_default_poi_image_file_wait);
     }
 
@@ -1317,6 +1322,7 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 	public void decompressDefaultPoiImageFile() {
     	if (mDecompressDefaultPoiImageFileHandler == null)
     	{
+			showDialog(R.id.decompress_default_poi_image_file_wait);
     		mDecompressDefaultPoiImageFileHandler = new DecompressDefaultPoiImageFileHandler(this);
     		mDecompressDefaultPoiImageFileThreadRunnable = new Thread(new DecompressDefaultPoiImageFileThreadRunnable(mDecompressDefaultPoiImageFileHandler, this));
     		mDecompressDefaultPoiImageFileThreadRunnable.start();
@@ -1327,6 +1333,7 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
     	}
     	else
     	{
+			showDialog(R.id.decompress_default_poi_image_file_wait);
     		Ut.dd("thread is likely dead. starting now");
     		//you have to create a new thread.
     		//no way to resurrect a dead thread.
@@ -1369,7 +1376,6 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
 		
 		if (!settings.getBoolean("decompress_default_poi_image_file_success", false)) {
-			showDialog(R.id.decompress_default_poi_image_file_wait);
 			String filename = MapConstants.DEFAULT_POI_IMAGE_FILES_ZIP_FILE_NAME;
 			
 			File zipFileFolder = Ut.getRMapsTmpDir(this);
