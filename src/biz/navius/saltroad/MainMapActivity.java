@@ -91,6 +91,7 @@ import biz.navius.saltroad.overlays.TrackOverlay;
 import biz.navius.saltroad.overlays.YandexTrafficOverlay;
 import biz.navius.saltroad.utils.CompassView;
 import biz.navius.saltroad.utils.CrashReportHandler;
+import biz.navius.saltroad.utils.DownloadDefaultPoiImage;
 import biz.navius.saltroad.utils.ScaleBarDrawable;
 import biz.navius.saltroad.utils.SearchSuggestionsProvider;
 import biz.navius.saltroad.utils.Ut;
@@ -100,6 +101,8 @@ import biz.navius.saltroad.copysdcard.CopyDefaultPoiDBFileToSDCardHandler;
 import biz.navius.saltroad.copysdcard.CopyDefaultPoiDBFileToSDCardThreadRunnable;
 import biz.navius.saltroad.copysdcard.CopyTrackFileToSDCardHandler;
 import biz.navius.saltroad.copysdcard.CopyTrackFileToSDCardThreadRunnable;
+import biz.navius.saltroad.defaultpoi.DecompressDefaultPoiImageFileHandler;
+import biz.navius.saltroad.defaultpoi.DecompressDefaultPoiImageFileThreadRunnable;
 import biz.navius.saltroad.defaultpoi.DefaultPoiDetailActivity;
 
 public class MainMapActivity extends OpenStreetMapActivity implements OpenStreetMapConstants {
@@ -142,10 +145,13 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 
 	private ProgressDialog mTrackDlgWait;
 	private ProgressDialog mDefaultPoiDBDlgWait;
+	private ProgressDialog mDecompressDefaultPoiImageFileDlgWait;
 	private Handler mCopyTrackFileToSDCardHandler = null;
 	private Thread mCopyTrackFileToSDCardThreadRunnable = null;
 	private Handler mCopyDefaultPoiDBFileToSDCardHandler = null;
 	private Thread mCopyDefaultPoiDBFileToSDCardThreadRunnable = null;
+	private Handler mDecompressDefaultPoiImageFileHandler = null;
+	private Thread mDecompressDefaultPoiImageFileThreadRunnable = null;
 
 
     private final SensorEventListener mListener = new SensorEventListener() {
@@ -742,17 +748,24 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 			}).create();
 		case R.id.track_dialog_wait: {
 			mTrackDlgWait = new ProgressDialog(this);
-			mTrackDlgWait.setMessage("Please wait while track loading...");
+			mTrackDlgWait.setMessage("Please wait while loading track...");
 			mTrackDlgWait.setIndeterminate(true);
 			mTrackDlgWait.setCancelable(false);
 			return mTrackDlgWait;
 		}
 		case R.id.defaultpoi_db_wait: {
 			mDefaultPoiDBDlgWait = new ProgressDialog(this);
-			mDefaultPoiDBDlgWait.setMessage("Please wait while default poi loading...");
+			mDefaultPoiDBDlgWait.setMessage("Please wait while loading default poi...");
 			mDefaultPoiDBDlgWait.setIndeterminate(true);
 			mDefaultPoiDBDlgWait.setCancelable(false);
 			return mDefaultPoiDBDlgWait;
+		}
+		case R.id.decompress_default_poi_image_file_wait: {
+			mDecompressDefaultPoiImageFileDlgWait = new ProgressDialog(this);
+			mDecompressDefaultPoiImageFileDlgWait.setMessage("Please wait while decompressing default poi image file...");
+			mDecompressDefaultPoiImageFileDlgWait.setIndeterminate(true);
+			mDecompressDefaultPoiImageFileDlgWait.setCancelable(false);
+			return mDecompressDefaultPoiImageFileDlgWait;
 		}
 		}
 
@@ -1039,11 +1052,13 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		}
 
 		if(!settings.getString("app_version", "").equalsIgnoreCase(Ut.getAppVersion(this))) {
-	    	CheckNeedDefaultDataUpdate();
-			setDefaultMapTrack();
 			showDialog(R.id.whatsnew);
 		}
 
+    	CheckNeedDefaultDataUpdate();
+		setDefaultMapTrack();
+		setDefaultPoiImageFile();
+			
 		if (settings.getBoolean("add_yandex_bookmark", true))
 			if (getResources().getConfiguration().locale.toString()
 					.equalsIgnoreCase("ru_RU")) {
@@ -1215,6 +1230,7 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
     		editor1.putBoolean("copy_track_to_sdcard_success", true);
     		editor1.commit();
     		setDefaultLocation();
+			mOsmv.invalidate();
     	} else {
     		editor1.putBoolean("copy_track_to_sdcard_success", false);
     		editor1.commit();
@@ -1222,8 +1238,8 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		dismissDialog(R.id.track_dialog_wait);
 		
 		// Show default track
-		finish();
-		startActivity(new Intent(this, this.getClass()));
+		//finish();
+		//startActivity(new Intent(this, this.getClass()));
     }
 
     public void copyDefaultPoiDBFileToSDCardSuccessPreference(Boolean success) {
@@ -1241,7 +1257,15 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		dismissDialog(R.id.defaultpoi_db_wait);
     }
     
-	public void defaultPoiDetailButtonEnable(Boolean isEnable) {
+    public void decompressDefaultPoiImageFileSuccessPreference(Boolean success) {
+		SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putBoolean("decompress_default_poi_image_file_success", success);
+		editor.commit();
+		dismissDialog(R.id.decompress_default_poi_image_file_wait);
+    }
+
+    public void defaultPoiDetailButtonEnable(Boolean isEnable) {
 		if (isEnable)
 	        ivDefaultPoi.setVisibility(ImageView.VISIBLE);
 		else
@@ -1290,6 +1314,27 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
     	}
 	}
 
+	public void decompressDefaultPoiImageFile() {
+    	if (mDecompressDefaultPoiImageFileHandler == null)
+    	{
+    		mDecompressDefaultPoiImageFileHandler = new DecompressDefaultPoiImageFileHandler(this);
+    		mDecompressDefaultPoiImageFileThreadRunnable = new Thread(new DecompressDefaultPoiImageFileThreadRunnable(mDecompressDefaultPoiImageFileHandler, this));
+    		mDecompressDefaultPoiImageFileThreadRunnable.start();
+    	}
+    	if (mDecompressDefaultPoiImageFileThreadRunnable.getState() != Thread.State.TERMINATED)
+    	{
+    		Ut.dd("thread is new or alive, but not terminated");
+    	}
+    	else
+    	{
+    		Ut.dd("thread is likely dead. starting now");
+    		//you have to create a new thread.
+    		//no way to resurrect a dead thread.
+    		mDecompressDefaultPoiImageFileThreadRunnable = new Thread(new DecompressDefaultPoiImageFileThreadRunnable(mDecompressDefaultPoiImageFileHandler, this));
+    		mDecompressDefaultPoiImageFileThreadRunnable.start();
+    	}
+	}
+
 	private void setDefaultMapTrack() {
 		SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
 		
@@ -1317,6 +1362,21 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		if (!settings.getBoolean("copy_defaultpoi_to_sdcard_success", false) || !defaultPoiDBFile.exists()) {
 			showDialog(R.id.defaultpoi_db_wait);
 			MainMapActivity.this.copyDefaultPoiDBFileToSDCard();
+		}
+    }
+
+	private void setDefaultPoiImageFile() {
+		SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
+		
+		if (!settings.getBoolean("decompress_default_poi_image_file_success", false)) {
+			showDialog(R.id.decompress_default_poi_image_file_wait);
+			String filename = MapConstants.DEFAULT_POI_IMAGE_FILES_ZIP_FILE_NAME;
+			
+			File zipFileFolder = Ut.getRMapsTmpDir(this);
+			String zipFilename = zipFileFolder.getAbsolutePath() + File.separator + filename;
+			String downloadMapUrlString = MapConstants.MAP_URL_BASE + "/" + filename;
+			
+			new DownloadDefaultPoiImage(this).execute(downloadMapUrlString, zipFilename);
 		}
     }
 }

@@ -17,4 +17,9 @@ public interface MapConstants {
 	public static final Integer DEFAULT_ZOOMLEVEL = 10;
 	public static final Integer DEFAULT_LATITUDE = 36631315;
 	public static final Integer DEFAULT_LONGITUDE = 137845459;
+	
+	public static final String DEFAULT_POI_IMAGE_FILES_ZIP_FILE_NAME = "default_poi_image_files.zip";
+	public static final String TMP_DIR = "tmp";
+	public static final String DEFAULT_POI_IMAGE_DIR = "defaultpoiimage";
+
 }

@@ -200,7 +200,13 @@ v.1.0\n
 	<string name="activity">Activity</string>
 
 	<string name="message_downloading_map_file">Downloading a map file...</string>
-	<string name="warning_file_overwrite">This file already exists. Overwrite?</string>
+	<string name="warning_file_overwrite">This file already exists. Do you overwrite?</string>
 	<string name="error_failed_to_download_map">Failed to download a map file.</string>
 
+	<string name="message_downloading_default_poi_image_file">Downloading poi image files...</string>
+	<string name="error_failed_to_download_default_poi_image">Failed to download poi image files.</string>
+
+	<string name="message_decompressing_default_poi_image_file">Decompressing poi image files...</string>
+	<string name="error_failed_to_decompress_default_poi_image">Failed to decompress poi image files.</string>
+	    	    	    
 </resources>

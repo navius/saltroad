@@ -1,6 +1,8 @@
 package biz.navius.saltroad.overlays;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +17,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
@@ -166,7 +170,6 @@ public class DefaultPoiOverlay extends OpenStreetMapViewOverlay {
 	protected void onDrawItem(Canvas c, int index, Point screenCoords) {
 		final DefaultPoiPoint focusedItem = mItemList.get(index);
 		int iconID;
-		int imageID;
 
 		try{
 			iconID = mCtx.getResources().getIdentifier(focusedItem.IconName, "drawable", mCtx.getPackageName());
@@ -174,12 +177,6 @@ public class DefaultPoiOverlay extends OpenStreetMapViewOverlay {
 			iconID = R.drawable.default_poi_icon;
 		}
 		
-		try{
-			imageID = mCtx.getResources().getIdentifier(focusedItem.ImageName, "drawable", mCtx.getPackageName());
-		} catch (Exception e) {
-			imageID = R.drawable.no_image;
-		}
-
 		if (index == mTapIndex) {
 			final ImageView pic = (ImageView) mT.findViewById(R.id.pic);
 			final TextView title = (TextView) mT.findViewById(R.id.poi_title);
@@ -187,11 +184,27 @@ public class DefaultPoiOverlay extends OpenStreetMapViewOverlay {
 			final TextView coord = (TextView) mT.findViewById(R.id.coord);
 			final ImageView image = (ImageView) mT.findViewById(R.id.image);
 			
+			int imageID;
+
+			try{
+				imageID = mCtx.getResources().getIdentifier(focusedItem.ImageName, "drawable", mCtx.getPackageName());
+
+				String fileExtension = "png";
+	    		File defaultPoiImageFolder = Ut.getRMapsDefaultPoiImageDir(mCtx);
+	    		String imgPath = defaultPoiImageFolder.getAbsolutePath() + File.separator + focusedItem.ImageName + "." + fileExtension;
+				FileInputStream fis = new FileInputStream(imgPath);
+				BufferedInputStream bis = new BufferedInputStream(fis);
+				Bitmap bitmapImage = BitmapFactory.decodeStream(bis);
+				image.setImageBitmap(bitmapImage);
+			} catch (Exception e) {
+				imageID = R.drawable.no_image;
+				image.setImageResource(imageID);
+			}
+
 			pic.setImageResource(iconID);
 			title.setText(focusedItem.Title);
 			descr.setText(focusedItem.Descr);
 			coord.setText(Ut.formatGeoPoint(focusedItem.GeoPoint));
-			image.setImageResource(imageID);
 
 			mT.measure(0, 0);
 			mT.layout(0, 0, mT.getMeasuredWidth(), mT.getMeasuredHeight());

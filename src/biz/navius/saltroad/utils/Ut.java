@@ -171,6 +171,14 @@ public class Ut implements OpenStreetMapConstants, OpenStreetMapViewConstants {
 		return getDefaultDir(mCtx, "/sdcard/saltroad/defaultimport/", "");
 	}
 	
+	public static File getRMapsDefaultPoiImageDir(final Context mCtx) {
+		return getDefaultDir(mCtx, "/sdcard/saltroad/defaultpoiimage/", "");
+	}
+
+	public static File getRMapsTmpDir(final Context mCtx) {
+		return getDefaultDir(mCtx, "/sdcard/saltroad/tmp/", "");
+	}
+
 	public static File getRMapsExportDir(final Context mCtx) {
 		return getDir(mCtx, "pref_dir_export", "/sdcard/saltroad/export/", "");
 	}
@@ -355,4 +363,24 @@ public class Ut implements OpenStreetMapConstants, OpenStreetMapViewConstants {
 		return b.getBoolean("message");
 	}
 
+	public boolean cleanFolder(String folderPath)                          //Testing purpose only
+	{
+        try {
+    	    File folder = new File(folderPath);
+
+    		if (folder.exists()) {
+    			File[] files = folder.listFiles();
+    			if (files != null)
+    				for (int i = 0; i < files.length; i++) {
+        	            File file = files[i];
+        	            file.delete();
+    				}
+    		}
+        
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+	}
 }

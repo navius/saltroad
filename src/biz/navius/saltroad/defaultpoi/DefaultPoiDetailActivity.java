@@ -1,12 +1,16 @@
 package biz.navius.saltroad.defaultpoi;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 
 import org.andnav.osm.util.GeoPoint;
 
 import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,22 +36,25 @@ public class DefaultPoiDetailActivity extends Activity {
         	final DefaultPoiPoint focusedItem = getDefaultPoi(id);
         	
         	if (focusedItem != null){
-        		
-        		int imageID;
-
+    			final ImageView image = (ImageView) this.findViewById(R.id.image);
         		try{
-        			imageID = this.getResources().getIdentifier(focusedItem.ImageName, "drawable", this.getPackageName());
+        			String fileExtension = "png";
+            		File defaultPoiImageFolder = Ut.getRMapsDefaultPoiImageDir(this);
+            		String imgPath = defaultPoiImageFolder.getAbsolutePath() + File.separator + focusedItem.ImageName + "." + fileExtension;
+    				FileInputStream fis = new FileInputStream(imgPath);
+    				BufferedInputStream bis = new BufferedInputStream(fis);
+    				Bitmap bitmapImage = BitmapFactory.decodeStream(bis);
+        			image.setImageBitmap(bitmapImage);
         		} catch (Exception e) {
-        			imageID = R.drawable.no_image;
+        			int imageID = R.drawable.no_image;
+        			image.setImageResource(imageID);
         		}
 
      			final TextView title = (TextView) this.findViewById(R.id.name);
     			final TextView descr = (TextView) this.findViewById(R.id.comment);
-    			final ImageView image = (ImageView) this.findViewById(R.id.image);
     			
     			title.setText(focusedItem.Title);
     			descr.setText(focusedItem.Descr);
-    			image.setImageResource(imageID);
         	}
         }
 	}
