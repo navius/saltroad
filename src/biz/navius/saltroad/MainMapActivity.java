@@ -492,8 +492,8 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 		final int versionDataUpdate = settings.getInt("versionDefaultDataUpdate", 0);
 		Ut.dd("versionDefaultDataUpdate="+versionDataUpdate);
 
-		if(versionDataUpdate < 1){
-			Ut.dd("Upgrade app default data to v.1");
+		if(versionDataUpdate < 2){
+			Ut.dd("Upgrade app default data to v.2");
 			SharedPreferences.Editor editor1 = settings.edit();
 	    	editor1.putBoolean("copy_track_to_sdcard_success", false);
 	    	editor1.commit();
@@ -501,7 +501,7 @@ public class MainMapActivity extends OpenStreetMapActivity implements OpenStreet
 
 		SharedPreferences uiState = getPreferences(0);
 		SharedPreferences.Editor editor = uiState.edit();
-		editor.putInt("versionDefaultDataUpdate", 1);
+		editor.putInt("versionDefaultDataUpdate", 2);
 		editor.commit();
 	}
 	
